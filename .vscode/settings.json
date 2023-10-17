@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["aaaah", "Isogram", "Isograms", "nums", "strs"],
+  "cSpell.words": [
+    "aaaah",
+    "ERDT",
+    "Isogram",
+    "Isograms",
+    "nums",
+    "strs"
+  ],
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
