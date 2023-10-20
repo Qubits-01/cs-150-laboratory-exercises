@@ -16,66 +16,71 @@ type AmOrPm = "AM" | "PM";
 type Time = { hour: number, minute: number, amOrPm: AmOrPm };
 
 class DayBasedSchedule {
-    startTime: Time;
-    endTime: Time;
+    // Should not be modifiable outside this class. Use getters instead.
+    private readonly _days: Day[];
+    private readonly _startTime: Time;
+    private readonly _endTime: Time;
 
     constructor(
-        private readonly _days: string,
+        private readonly _rawDays: string,
         private readonly _time: string,
     ) {
-        let [start, end]: [string, string] = _time.split("-") as [string, string];
+        // [ Days[]. ]
+        this._days = this.extractDays(this._rawDays);
+
+        let [start, end]: [string, string] =
+            this._time.split("-") as [string, string];
 
         // [ endTime. ]
         // Guaranteed to be not null.
         let endAmOrPm: AmOrPm = this.extractAmOrPm(end) as AmOrPm;
-        let [endHour, endMinute]: [number, number] =
-            this.extractHourMinute(end);
-        this.endTime = {
-            hour: endHour,
-            minute: endMinute,
-            amOrPm: endAmOrPm
-        };
+        this._endTime = this.buildTimeObj(end, () => endAmOrPm);
 
         // [ startTime. ]
-        let startAmOrPm: AmOrPm;
-        if (endAmOrPm === "AM") {
-            startAmOrPm = "AM";
-        } else {
-            let temp: AmOrPm | null = this.extractAmOrPm(start);
-            startAmOrPm = temp === null ? "PM" : temp;
-        }
-
-        let [startHour, startMinute]: [number, number] =
-            this.extractHourMinute(end);
-
-        this.startTime = {
-            hour: startHour,
-            minute: startMinute,
-            amOrPm: startAmOrPm
-        };
-
-
-
+        this._startTime = this.buildTimeObj(
+            start,
+            () => endAmOrPm === "AM" ? "AM" : this.extractAmOrPm(start) ?? "PM"
+        );
     }
 
     // GETTERS.
     get days(): Day[] {
-        // Intelligently split the days string into an array of Day.
-        // Take not that thursday is represented by "Th" (not a two letter string).
-        let temp: Day[] = [];
-        for (let i = 0; i < this._days.length; i++) {
-            if (this._days[i] === "T" && this._days[i + 1] === "h") {
-                temp.push("Th");
-                i++;
-            } else {
-                temp.push(this._days[i] as Day);
-            }
-        }
+        // Return a copy of the days array (not by reference).
+        return [...this._days];
+    }
 
-        return temp;
+    get startTime(): Time {
+        // Return a copy of the startTime object (not by "reference-like").
+        return { ...this._startTime };
+    }
+
+    get endTime(): Time {
+        // Return a copy of the endTime object (not by "reference-like").
+        return { ...this._endTime };
     }
 
     // UTILITY METHODS.
+    /**
+     * Intelligently split the days string into an array of Day.
+     * Take not that thursday is represented by "Th" (not a two letter string).
+     * 
+     * @param {string} rawDays The raw days input string.
+     * @returns {Days[]} An array of Day objects.
+     */
+    private extractDays(rawDays: string): Day[] {
+        let days: Day[] = [];
+        for (let i = 0; i < rawDays.length; i++) {
+            if (rawDays[i] === "T" && rawDays[i + 1] === "h") {
+                days.push("Th");
+                i++;
+            } else {
+                days.push(rawDays[i] as Day);
+            }
+        }
+
+        return days;
+    }
+
     private extractAmOrPm(time: string): AmOrPm | null {
         let amOrPm: string | undefined =
             time.match(/([AP]M)?/g)?.filter(str => str.length > 0)[0];
@@ -89,6 +94,16 @@ class DayBasedSchedule {
             time.match(hourMinuteRegex) as [string, string | undefined];
 
         return [parseInt(hour), minute === undefined ? 0 : parseInt(minute)];
+    }
+
+    private buildTimeObj(time: string, amOrPmCB: () => AmOrPm): Time {
+        let [hour, minute]: [number, number] = this.extractHourMinute(time);
+
+        return {
+            hour: hour,
+            minute: minute,
+            amOrPm: amOrPmCB()
+        };
     }
 }
 
@@ -202,6 +217,13 @@ console.log(sampleDayBasedSchedule4.days);
 
 const sampleDayBasedSchedule5 = new DayBasedSchedule("ThFS", "10-11:30AM");
 console.log(sampleDayBasedSchedule5.days);
+
+// DayBasedSchedule class (time).
+const sampleDayBasedSchedule6 = new DayBasedSchedule("Th", "10-11:30AM");
+console.log(sampleDayBasedSchedule6.startTime);
+console.log(sampleDayBasedSchedule6.endTime);
+sampleDayBasedSchedule1.startTime.amOrPm = "PM";
+console.log(sampleDayBasedSchedule1.startTime);
 
 // Whole program.
 parseInput(sample_input);

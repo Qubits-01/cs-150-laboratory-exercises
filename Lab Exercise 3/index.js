@@ -14,52 +14,53 @@ CS 31 THY2,TTh 4-5:30PM lec CLR3`;
 console.log(ge_courses_1.default.COURSES);
 console.log(ge_courses_1.default.COURSES.length);
 class DayBasedSchedule {
-    constructor(_days, _time) {
-        this._days = _days;
+    constructor(_rawDays, _time) {
+        this._rawDays = _rawDays;
         this._time = _time;
-        let [start, end] = _time.split("-");
+        // [ Days[]. ]
+        this._days = this.extractDays(this._rawDays);
+        let [start, end] = this._time.split("-");
         // [ endTime. ]
         // Guaranteed to be not null.
         let endAmOrPm = this.extractAmOrPm(end);
-        let [endHour, endMinute] = this.extractHourMinute(end);
-        this.endTime = {
-            hour: endHour,
-            minute: endMinute,
-            amOrPm: endAmOrPm
-        };
+        this._endTime = this.buildTimeObj(end, () => endAmOrPm);
         // [ startTime. ]
-        let startAmOrPm;
-        if (endAmOrPm === "AM") {
-            startAmOrPm = "AM";
-        }
-        else {
-            let temp = this.extractAmOrPm(start);
-            startAmOrPm = temp === null ? "PM" : temp;
-        }
-        let [startHour, startMinute] = this.extractHourMinute(end);
-        this.startTime = {
-            hour: startHour,
-            minute: startMinute,
-            amOrPm: startAmOrPm
-        };
+        this._startTime = this.buildTimeObj(start, () => { var _a; return endAmOrPm === "AM" ? "AM" : (_a = this.extractAmOrPm(start)) !== null && _a !== void 0 ? _a : "PM"; });
     }
     // GETTERS.
     get days() {
-        // Intelligently split the days string into an array of Day.
-        // Take not that thursday is represented by "Th" (not a two letter string).
-        let temp = [];
-        for (let i = 0; i < this._days.length; i++) {
-            if (this._days[i] === "T" && this._days[i + 1] === "h") {
-                temp.push("Th");
+        // Return a copy of the days array (not by reference).
+        return [...this._days];
+    }
+    get startTime() {
+        // Return a copy of the startTime object (not by "reference-like").
+        return Object.assign({}, this._startTime);
+    }
+    get endTime() {
+        // Return a copy of the endTime object (not by "reference-like").
+        return Object.assign({}, this._endTime);
+    }
+    // UTILITY METHODS.
+    /**
+     * Intelligently split the days string into an array of Day.
+     * Take not that thursday is represented by "Th" (not a two letter string).
+     *
+     * @param {string} rawDays The raw days input string.
+     * @returns {Days[]} An array of Day objects.
+     */
+    extractDays(rawDays) {
+        let days = [];
+        for (let i = 0; i < rawDays.length; i++) {
+            if (rawDays[i] === "T" && rawDays[i + 1] === "h") {
+                days.push("Th");
                 i++;
             }
             else {
-                temp.push(this._days[i]);
+                days.push(rawDays[i]);
             }
         }
-        return temp;
+        return days;
     }
-    // UTILITY METHODS.
     extractAmOrPm(time) {
         var _a;
         let amOrPm = (_a = time.match(/([AP]M)?/g)) === null || _a === void 0 ? void 0 : _a.filter(str => str.length > 0)[0];
@@ -69,6 +70,14 @@ class DayBasedSchedule {
         let hourMinuteRegex = /[\d]+/g;
         let [hour, minute] = time.match(hourMinuteRegex);
         return [parseInt(hour), minute === undefined ? 0 : parseInt(minute)];
+    }
+    buildTimeObj(time, amOrPmCB) {
+        let [hour, minute] = this.extractHourMinute(time);
+        return {
+            hour: hour,
+            minute: minute,
+            amOrPm: amOrPmCB()
+        };
     }
 }
 /**
@@ -157,5 +166,11 @@ const sampleDayBasedSchedule4 = new DayBasedSchedule("MT", "10-11:30AM");
 console.log(sampleDayBasedSchedule4.days);
 const sampleDayBasedSchedule5 = new DayBasedSchedule("ThFS", "10-11:30AM");
 console.log(sampleDayBasedSchedule5.days);
+// DayBasedSchedule class (time).
+const sampleDayBasedSchedule6 = new DayBasedSchedule("Th", "10-11:30AM");
+console.log(sampleDayBasedSchedule6.startTime);
+console.log(sampleDayBasedSchedule6.endTime);
+sampleDayBasedSchedule1.startTime.amOrPm = "PM";
+console.log(sampleDayBasedSchedule1.startTime);
 // Whole program.
 parseInput(sample_input);
