@@ -132,10 +132,6 @@ function resultStateEnumToStringMsg(resultState) {
     }
 }
 function whoWon(playerChoice, computerChoice) {
-    // Draw condition.
-    if (playerChoice === computerChoice) {
-        return ResultState.Draw;
-    }
     // Determine who won by comparing player's choice and computer's choice.
     if (playerChoice === Choice.Rock && computerChoice === Choice.Scissors) {
         return ResultState.PlayerWon;
