@@ -219,11 +219,49 @@ const sampleDayBasedSchedule5 = new DayBasedSchedule("ThFS", "10-11:30AM");
 console.log(sampleDayBasedSchedule5.days);
 
 // DayBasedSchedule class (time).
+console.log("Th 10-11:30AM");
 const sampleDayBasedSchedule6 = new DayBasedSchedule("Th", "10-11:30AM");
+console.log(sampleDayBasedSchedule6.days);
 console.log(sampleDayBasedSchedule6.startTime);
 console.log(sampleDayBasedSchedule6.endTime);
 sampleDayBasedSchedule1.startTime.amOrPm = "PM";
-console.log(sampleDayBasedSchedule1.startTime);
+console.log(sampleDayBasedSchedule1.startTime); // Should not change.
+
+console.log("TTh 10-11:30AM");
+const sampleDayBasedSchedule7 = new DayBasedSchedule("TTh", "10-11:30AM");
+console.log(sampleDayBasedSchedule7.days);
+console.log(sampleDayBasedSchedule7.startTime);
+console.log(sampleDayBasedSchedule7.endTime);
+
+console.log("W 10AM-12PM");
+const sampleDayBasedSchedule8 = new DayBasedSchedule("W", "10AM-12PM");
+console.log(sampleDayBasedSchedule8.days);
+console.log(sampleDayBasedSchedule8.startTime);
+console.log(sampleDayBasedSchedule8.endTime);
+
+console.log("F 10AM-1PM");
+const sampleDayBasedSchedule9 = new DayBasedSchedule("F", "10AM-1PM");
+console.log(sampleDayBasedSchedule9.days);
+console.log(sampleDayBasedSchedule9.startTime);
+console.log(sampleDayBasedSchedule9.endTime);
+
+console.log("F 1-4PM");
+const sampleDayBasedSchedule10 = new DayBasedSchedule("F", "1-4PM");
+console.log(sampleDayBasedSchedule10.days);
+console.log(sampleDayBasedSchedule10.startTime);
+console.log(sampleDayBasedSchedule10.endTime);
+
+console.log("TTh 1-2PM");
+const sampleDayBasedSchedule11 = new DayBasedSchedule("TTh", "1-2PM");
+console.log(sampleDayBasedSchedule11.days);
+console.log(sampleDayBasedSchedule11.startTime);
+console.log(sampleDayBasedSchedule11.endTime);
+
+console.log("TTh 4-5:30PM");
+const sampleDayBasedSchedule12 = new DayBasedSchedule("TTh", "4-5:30PM");
+console.log(sampleDayBasedSchedule12.days);
+console.log(sampleDayBasedSchedule12.startTime);
+console.log(sampleDayBasedSchedule12.endTime);
 
 // Whole program.
 parseInput(sample_input);
