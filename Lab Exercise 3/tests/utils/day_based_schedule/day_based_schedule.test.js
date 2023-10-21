@@ -17,7 +17,7 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         (0, globals_1.beforeAll)(() => {
             days = "MWThF";
             // The time argument is not really needed here, just random input data.
-            mock = new day_based_schedule_1.default(days, "8:30 AM - 10:00 AM");
+            mock = new day_based_schedule_1.default(days, "8:30AM-10:00AM");
         });
         (0, globals_1.test)('Should return an array of correct Day objects.', () => {
             // [ Arrange.]
@@ -90,6 +90,62 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
             MODIFIED_TIME.minute = 42;
             // [ Assert. ] 
             (0, globals_1.expect)(MODIFIED_TIME).not.toEqual(EXPECTED);
+        });
+    });
+    (0, globals_1.describe)('[ hasConflict ]', () => {
+        (0, globals_1.test)('Should return true for 8:30-10AM and 9:00-10AM.', () => {
+            // [ Arrange. ]
+            let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
+            let sched2 = new day_based_schedule_1.default("MWF", "9:00-10AM");
+            // [ Act. ]
+            let hasConflict = sched1.hasConflict(sched2);
+            // [ Assert. ]
+            (0, globals_1.expect)(hasConflict).toBe(true);
+        });
+        (0, globals_1.test)('Should return true for 8:30-10AM and 8:30-9AM.', () => {
+            // [ Arrange. ]
+            let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
+            let sched2 = new day_based_schedule_1.default("MWF", "8:30-9AM");
+            // [ Act. ]
+            let hasConflict = sched1.hasConflict(sched2);
+            // [ Assert. ]
+            (0, globals_1.expect)(hasConflict).toBe(true);
+        });
+        (0, globals_1.test)('Should return false for 8:30-10AM and 10-1PM.', () => {
+            // [ Arrange. ]
+            let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
+            let sched2 = new day_based_schedule_1.default("MWF", "10-1PM");
+            // [ Act. ]
+            let hasConflict = sched1.hasConflict(sched2);
+            // [ Assert. ]
+            (0, globals_1.expect)(hasConflict).toBe(false);
+        });
+        (0, globals_1.test)('Should return false for 2:30-3:30PM and 7AM-2:30PM.', () => {
+            // [ Arrange. ]
+            let sched1 = new day_based_schedule_1.default("MWF", "2:30-3:30PM");
+            let sched2 = new day_based_schedule_1.default("MWF", "7AM-2:30PM");
+            // [ Act. ]
+            let hasConflict = sched1.hasConflict(sched2);
+            // [ Assert. ]
+            (0, globals_1.expect)(hasConflict).toBe(false);
+        });
+        (0, globals_1.test)('Should return false for 2:30-3:30PM and 4-5PM.', () => {
+            // [ Arrange. ]
+            let sched1 = new day_based_schedule_1.default("MWF", "2:30-3:30PM");
+            let sched2 = new day_based_schedule_1.default("MWF", "4-5PM");
+            // [ Act. ]
+            let hasConflict = sched1.hasConflict(sched2);
+            // [ Assert. ]
+            (0, globals_1.expect)(hasConflict).toBe(false);
+        });
+        (0, globals_1.test)('Should return false for 10:45AM-3PM and 7:30-8AM.', () => {
+            // [ Arrange. ]
+            let sched1 = new day_based_schedule_1.default("MWF", "10:45AM-3PM");
+            let sched2 = new day_based_schedule_1.default("MWF", "7:30-8AM");
+            // [ Act. ]
+            let hasConflict = sched1.hasConflict(sched2);
+            // [ Assert. ]
+            (0, globals_1.expect)(hasConflict).toBe(false);
         });
     });
     (0, globals_1.describe)('[ _extractDays ]', () => {
@@ -420,6 +476,53 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
             let minutes = mock._proxyGetMinutesSinceMidnight(time);
             // [ Assert. ]
             (0, globals_1.expect)(minutes).toBe(495);
+        });
+    });
+    (0, globals_1.describe)('[ _convertStartEndToMinutes ]', () => {
+        (0, globals_1.test)('Should return [495, 600] for 8:15-10:00AM.', () => {
+            // [ Arrange. ]
+            let sched = new day_based_schedule_1.default("MWF", "8:15-10:00AM");
+            // [ Act. ]
+            let [start, end] = mock._proxyConvertStartEndToMinutes(sched);
+            // [ Assert. ]
+            (0, globals_1.expect)(start).toBe(495);
+            (0, globals_1.expect)(end).toBe(600);
+        });
+        (0, globals_1.test)('Should return [780, 840] for 1:00-2:00PM.', () => {
+            // [ Arrange. ]
+            let sched = new day_based_schedule_1.default("MWF", "1:00-2:00PM");
+            // [ Act. ]
+            let [start, end] = mock._proxyConvertStartEndToMinutes(sched);
+            // [ Assert. ]
+            (0, globals_1.expect)(start).toBe(780);
+            (0, globals_1.expect)(end).toBe(840);
+        });
+        (0, globals_1.test)('Should return [1140, 1200] for 7-8PM.', () => {
+            // [ Arrange. ]
+            let sched = new day_based_schedule_1.default("MWF", "7-8PM");
+            // [ Act. ]
+            let [start, end] = mock._proxyConvertStartEndToMinutes(sched);
+            // [ Assert. ]
+            (0, globals_1.expect)(start).toBe(1140);
+            (0, globals_1.expect)(end).toBe(1200);
+        });
+        (0, globals_1.test)('Should return [690, 780] for 11:30AM-1PM.', () => {
+            // [ Arrange. ]
+            let sched = new day_based_schedule_1.default("MWF", "11:30AM-1PM");
+            // [ Act. ]
+            let [start, end] = mock._proxyConvertStartEndToMinutes(sched);
+            // [ Assert. ]
+            (0, globals_1.expect)(start).toBe(690);
+            (0, globals_1.expect)(end).toBe(780);
+        });
+        (0, globals_1.test)('Should return [495, 600] for 8:15AM-10AM.', () => {
+            // [ Arrange. ]
+            let sched = new day_based_schedule_1.default("MWF", "8:15AM-10AM");
+            // [ Act. ]
+            let [start, end] = mock._proxyConvertStartEndToMinutes(sched);
+            // [ Assert. ]
+            (0, globals_1.expect)(start).toBe(495);
+            (0, globals_1.expect)(end).toBe(600);
         });
     });
 });
