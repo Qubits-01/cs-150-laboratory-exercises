@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const globals_1 = require("@jest/globals");
-(0, globals_1.describe)('parseInput', () => {
+(0, globals_1.describe)('[ parseInput ]', () => {
     let sampleInput;
     (0, globals_1.beforeAll)(() => {
         sampleInput = `CS 153 THU,TTh 10-11:30AM lec ERDT Room

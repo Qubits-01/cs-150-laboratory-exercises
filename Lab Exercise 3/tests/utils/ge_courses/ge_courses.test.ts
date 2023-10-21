@@ -1,8 +1,8 @@
 import { describe, expect, test, beforeAll } from '@jest/globals';
 import GECourses from '../../../utils/ge_courses/ge_courses';
 
-describe('GECourses', () => {
-    describe('COURSES_FILE_PATH', () => {
+describe('[ GECourses ]', () => {
+    describe('[ COURSES_FILE_PATH ]', () => {
         test('Should return "utils/ge_courses/ge_courses.txt".', () => {
             // [ Arrange. ]
             const EXPECTED_COURSES_FILE_PATH = "utils/ge_courses/ge_courses.txt";
