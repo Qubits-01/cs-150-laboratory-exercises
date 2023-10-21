@@ -3,5 +3,8 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   verbose: true,
-  testPathIgnorePatterns: [".d.ts", ".js"]
+  testPathIgnorePatterns: [".d.ts", ".js"],
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  
 };
