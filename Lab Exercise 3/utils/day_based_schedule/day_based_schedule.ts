@@ -90,6 +90,11 @@ export default class DayBasedSchedule {
      * Take not that thursday is represented as "Th" 
      * (not a one letter string unlike the other days).
      * 
+     * Accepted days string format samples: "MWF", "TTh", "MWFTh"
+     * 
+     * Also, the returned array is sorted according to the order
+     * of the days in the input string.
+     * 
      * @param {string} rawDays The raw days input string.
      * @returns {Days[]} An array of Day objects.
      */

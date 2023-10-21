@@ -11,6 +11,62 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         // The arguments are not really needed here, just random input data.
         mock = new day_based_schedule_1.default("MWF", "8:30 AM - 10:00 AM");
     });
+    (0, globals_1.describe)('[ _extractDays ]', () => {
+        (0, globals_1.test)('Should return an array of correct Day objects for TTh.', () => {
+            // [ Arrange. ]
+            const rawDays = "TTh";
+            // [ Act. ]
+            let days = mock._proxyExtractDays(rawDays);
+            // [ Assert. ]
+            const EXPECTED_DAYS = ["T", "Th"];
+            (0, globals_1.expect)(days).toEqual(EXPECTED_DAYS);
+        });
+        (0, globals_1.test)('Should return an array of correct Day objects for MTWThFS.', () => {
+            // [ Arrange. ]
+            const rawDays = "MTWThFS";
+            // [ Act. ]
+            let days = mock._proxyExtractDays(rawDays);
+            // [ Assert. ]
+            const EXPECTED_DAYS = ["M", "T", "W", "Th", "F", "S"];
+            (0, globals_1.expect)(days).toEqual(EXPECTED_DAYS);
+        });
+        (0, globals_1.test)('Should return an array of correct Day objects for Th.', () => {
+            // [ Arrange. ]
+            const rawDays = "Th";
+            // [ Act. ]
+            let days = mock._proxyExtractDays(rawDays);
+            // [ Assert. ]
+            const EXPECTED_DAYS = ["Th"];
+            (0, globals_1.expect)(days).toEqual(EXPECTED_DAYS);
+        });
+        (0, globals_1.test)('Should return an array of correct Day objects for MT.', () => {
+            // [ Arrange. ]
+            const rawDays = "MT";
+            // [ Act. ]
+            let days = mock._proxyExtractDays(rawDays);
+            // [ Assert. ]
+            const EXPECTED_DAYS = ["M", "T"];
+            (0, globals_1.expect)(days).toEqual(EXPECTED_DAYS);
+        });
+        (0, globals_1.test)('Should return an array of correct Day objects for ThFS.', () => {
+            // [ Arrange. ]
+            const rawDays = "ThFS";
+            // [ Act. ]
+            let days = mock._proxyExtractDays(rawDays);
+            // [ Assert. ]
+            const EXPECTED_DAYS = ["Th", "F", "S"];
+            (0, globals_1.expect)(days).toEqual(EXPECTED_DAYS);
+        });
+        (0, globals_1.test)('Should return an array of correct Day objects for ThTMF.', () => {
+            // [ Arrange. ]
+            const rawDays = "ThTMF";
+            // [ Act. ]
+            let days = mock._proxyExtractDays(rawDays);
+            // [ Assert. ]
+            const EXPECTED_DAYS = ["Th", "T", "M", "F"];
+            (0, globals_1.expect)(days).toEqual(EXPECTED_DAYS);
+        });
+    });
     (0, globals_1.describe)('[ _buildTimeObj ]', () => {
         (0, globals_1.test)('Should return a correct Time object for 8:30AM.', () => {
             var _a;
