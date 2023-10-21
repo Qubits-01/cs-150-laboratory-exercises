@@ -9,7 +9,88 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
     let mock;
     (0, globals_1.beforeAll)(() => {
         // The arguments are not really needed here, just random input data.
-        mock = new day_based_schedule_1.default("MWF", "8:30 AM - 10:00 AM");
+        mock = new day_based_schedule_1.default("MWF", "8:30AM-10:00AM");
+    });
+    (0, globals_1.describe)('[ days ]', () => {
+        let mock;
+        let days;
+        (0, globals_1.beforeAll)(() => {
+            days = "MWThF";
+            // The time argument is not really needed here, just random input data.
+            mock = new day_based_schedule_1.default(days, "8:30 AM - 10:00 AM");
+        });
+        (0, globals_1.test)('Should return an array of correct Day objects.', () => {
+            // [ Arrange.]
+            const EXPECTED = mock.days;
+            // [ Act. ]
+            const ACTUAL = mock._proxyExtractDays(days);
+            // [ Assert. ]
+            (0, globals_1.expect)(ACTUAL).toEqual(EXPECTED);
+        });
+        (0, globals_1.test)('Returned array should not be modifiable outside of this class.', () => {
+            // [ Arrange. ]
+            const EXPECTED = mock.days;
+            // [ Act. ]
+            const MODIFIED_DAYS = mock.days;
+            MODIFIED_DAYS.push("M");
+            // [ Assert. ]
+            (0, globals_1.expect)(MODIFIED_DAYS).not.toEqual(EXPECTED);
+        });
+    });
+    (0, globals_1.describe)('[ startTime ]', () => {
+        let time;
+        let mock;
+        (0, globals_1.beforeAll)(() => {
+            time = "8:30AM";
+            // The days argument is not really needed here, just random input data.
+            mock = new day_based_schedule_1.default("MWF", `${time}-10:00AM`);
+        });
+        (0, globals_1.test)('Should return a correct Time object.', () => {
+            // [ Arrange. ]
+            const EXPECTED = mock.startTime;
+            // [ Act. ]
+            const ACTUAL = mock._proxyBuildTimeObj(time, () => "AM");
+            console.log(ACTUAL);
+            // [ Assert. ]
+            (0, globals_1.expect)(ACTUAL).toEqual(EXPECTED);
+        });
+        (0, globals_1.test)('Returned Time object should not be modifiable outside of this class.', () => {
+            // [ Arrange. ]
+            const EXPECTED = mock.startTime;
+            // [ Act. ]
+            const MODIFIED_TIME = mock.startTime;
+            MODIFIED_TIME.hour = 69;
+            MODIFIED_TIME.minute = 42;
+            // [ Assert. ] 
+            (0, globals_1.expect)(MODIFIED_TIME).not.toEqual(EXPECTED);
+        });
+    });
+    (0, globals_1.describe)('[ endTime ]', () => {
+        let time;
+        let mock;
+        (0, globals_1.beforeAll)(() => {
+            time = "10:00AM";
+            // The days argument is not really needed here, just random input data.
+            mock = new day_based_schedule_1.default("MWF", `8:30AM-${time}`);
+        });
+        (0, globals_1.test)('Should return a correct Time object.', () => {
+            // [ Arrange. ]
+            const EXPECTED = mock.endTime;
+            // [ Act. ]
+            const ACTUAL = mock._proxyBuildTimeObj(time, () => "AM");
+            // [ Assert. ]
+            (0, globals_1.expect)(ACTUAL).toEqual(EXPECTED);
+        });
+        (0, globals_1.test)('Returned Time object should not be modifiable outside of this class.', () => {
+            // [ Arrange. ]
+            const EXPECTED = mock.endTime;
+            // [ Act. ]
+            const MODIFIED_TIME = mock.endTime;
+            MODIFIED_TIME.hour = 69;
+            MODIFIED_TIME.minute = 42;
+            // [ Assert. ] 
+            (0, globals_1.expect)(MODIFIED_TIME).not.toEqual(EXPECTED);
+        });
     });
     (0, globals_1.describe)('[ _extractDays ]', () => {
         (0, globals_1.test)('Should return an array of correct Day objects for TTh.', () => {
@@ -115,6 +196,62 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
             let amOrPm = mock._proxyExtractAmOrPm(rawTime);
             // [ Assert. ]
             (0, globals_1.expect)(amOrPm).toBeNull();
+        });
+    });
+    (0, globals_1.describe)('[ _extractHourMinute ]', () => {
+        (0, globals_1.test)('Should return [8, 30] for 8:30AM.', () => {
+            // [ Arrange. ]
+            const rawTime = "8:30AM";
+            // [ Act. ]
+            let [hour, minute] = mock._proxyExtractHourMinute(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(hour).toBe(8);
+            (0, globals_1.expect)(minute).toBe(30);
+        });
+        (0, globals_1.test)('Should return [10, 0] for 10AM.', () => {
+            // [ Arrange. ]
+            const rawTime = "10AM";
+            // [ Act. ]
+            let [hour, minute] = mock._proxyExtractHourMinute(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(hour).toBe(10);
+            (0, globals_1.expect)(minute).toBe(0);
+        });
+        (0, globals_1.test)('Should return [5, 30] for 5:30PM.', () => {
+            // [ Arrange. ]
+            const rawTime = "5:30PM";
+            // [ Act. ]
+            let [hour, minute] = mock._proxyExtractHourMinute(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(hour).toBe(5);
+            (0, globals_1.expect)(minute).toBe(30);
+        });
+        (0, globals_1.test)('Should return [2, 0] for 2PM.', () => {
+            // [ Arrange. ]
+            const rawTime = "2PM";
+            // [ Act. ]
+            let [hour, minute] = mock._proxyExtractHourMinute(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(hour).toBe(2);
+            (0, globals_1.expect)(minute).toBe(0);
+        });
+        (0, globals_1.test)('Should return [11, 0] for 11.', () => {
+            // [ Arrange. ]
+            const rawTime = "11";
+            // [ Act. ]
+            let [hour, minute] = mock._proxyExtractHourMinute(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(hour).toBe(11);
+            (0, globals_1.expect)(minute).toBe(0);
+        });
+        (0, globals_1.test)('Should return [3, 30] for 3:30.', () => {
+            // [ Arrange. ]
+            const rawTime = "3:30";
+            // [ Act. ]
+            let [hour, minute] = mock._proxyExtractHourMinute(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(hour).toBe(3);
+            (0, globals_1.expect)(minute).toBe(30);
         });
     });
     (0, globals_1.describe)('[ _buildTimeObj ]', () => {

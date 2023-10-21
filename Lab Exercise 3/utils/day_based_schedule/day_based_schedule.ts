@@ -40,32 +40,29 @@ export default class DayBasedSchedule {
     /**
      * Get the days of the week of this DayBasedSchedule object.
      * 
+     * The returned array is a copy (not by reference).
+     * 
      * @returns {Day[]} An array of Day objects.
      */
-    get days(): Day[] {
-        // Return a copy of the days array (not by reference).
-        return [...this._days];
-    }
+    get days(): Day[] { return [...this._days]; }
 
     /**
      * Get the start time of this DayBasedSchedule object.
      * 
+     * The returned Time object is a copy (not by reference-like).
+     * 
      * @returns {Time} The start Time object.
      */
-    get startTime(): Time {
-        // Return a copy of the startTime object (not by "reference-like").
-        return { ...this._startTime };
-    }
+    get startTime(): Time { return { ...this._startTime }; }
 
     /**
      * Get the end time of this DayBasedSchedule object.
      * 
+     * The returned Time object is a copy (not by reference-like).
+     * 
      * @returns {Time} The end Time object.
      */
-    get endTime(): Time {
-        // Return a copy of the endTime object (not by "reference-like").
-        return { ...this._endTime };
-    }
+    get endTime(): Time { return { ...this._endTime }; }
 
     // [ UTILITY METHODS. ]
     /**
