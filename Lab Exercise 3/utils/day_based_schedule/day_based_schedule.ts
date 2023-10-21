@@ -39,7 +39,6 @@ export default class DayBasedSchedule {
     // [ GETTERS. ]
     /**
      * Get the days of the week of this DayBasedSchedule object.
-     * 
      * The returned array is a copy (not by reference).
      * 
      * @returns {Day[]} An array of Day objects.
@@ -48,7 +47,6 @@ export default class DayBasedSchedule {
 
     /**
      * Get the start time of this DayBasedSchedule object.
-     * 
      * The returned Time object is a copy (not by reference-like).
      * 
      * @returns {Time} The start Time object.
@@ -57,7 +55,6 @@ export default class DayBasedSchedule {
 
     /**
      * Get the end time of this DayBasedSchedule object.
-     * 
      * The returned Time object is a copy (not by reference-like).
      * 
      * @returns {Time} The end Time object.
@@ -75,7 +72,14 @@ export default class DayBasedSchedule {
     hasConflict(other: DayBasedSchedule): boolean {
         for (let day of this.days) {
             if (other.days.includes(day)) {
+                let [thisStartTime, thisEndTime]: [number, number] =
+                    this._convertStartEndToMinutes(this);
+                let [otherStartTime, otherEndTime]: [number, number] =
+                    this._convertStartEndToMinutes(other);
 
+                if (thisStartTime < otherEndTime && thisEndTime > otherStartTime) {
+                    return true; // There is a time overlap, indicating a conflict.
+                }
             }
         }
 
@@ -178,6 +182,20 @@ export default class DayBasedSchedule {
         return minutes;
     }
 
+    /**
+     * Convert the given DayBasedSchedule object's start and end time
+     * to minutes since midnight.
+     * 
+     * @param {DayBasedSchedule} sched The DayBasedSchedule object.
+     * @returns {[number, number]} The start and end minutes since midnight,
+     */
+    private _convertStartEndToMinutes(sched: DayBasedSchedule): [number, number] {
+        return [
+            this._getMinutesSinceMidnight(sched.startTime),
+            this._getMinutesSinceMidnight(sched.endTime)
+        ];
+    }
+
     // [ FOR TESTING - Proxy Methods ]
     // These methods are only for testing purposes.
     // They are used to test private methods.
@@ -238,4 +256,15 @@ export default class DayBasedSchedule {
     _proxyGetMinutesSinceMidnight(time: Time): number {
         return this._getMinutesSinceMidnight(time);
     }
+
+    /**
+     * Proxy method for convertStartEndToMinutes.
+     * For testing purposes only.
+     * 
+     * @param {DayBasedSchedule} sched The DayBasedSchedule object.
+     * @returns {[number, number]} The start and end minutes since midnight,
+     */
+    _proxyConvertStartEndToMinutes(sched: DayBasedSchedule): [number, number] {
+        return this._convertStartEndToMinutes(sched);
+    };
 }

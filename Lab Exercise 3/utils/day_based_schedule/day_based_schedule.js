@@ -25,7 +25,6 @@ class DayBasedSchedule {
     // [ GETTERS. ]
     /**
      * Get the days of the week of this DayBasedSchedule object.
-     *
      * The returned array is a copy (not by reference).
      *
      * @returns {Day[]} An array of Day objects.
@@ -33,7 +32,6 @@ class DayBasedSchedule {
     get days() { return [...this._days]; }
     /**
      * Get the start time of this DayBasedSchedule object.
-     *
      * The returned Time object is a copy (not by reference-like).
      *
      * @returns {Time} The start Time object.
@@ -41,7 +39,6 @@ class DayBasedSchedule {
     get startTime() { return Object.assign({}, this._startTime); }
     /**
      * Get the end time of this DayBasedSchedule object.
-     *
      * The returned Time object is a copy (not by reference-like).
      *
      * @returns {Time} The end Time object.
@@ -58,6 +55,11 @@ class DayBasedSchedule {
     hasConflict(other) {
         for (let day of this.days) {
             if (other.days.includes(day)) {
+                let [thisStartTime, thisEndTime] = this._convertStartEndToMinutes(this);
+                let [otherStartTime, otherEndTime] = this._convertStartEndToMinutes(other);
+                if (thisStartTime < otherEndTime && thisEndTime > otherStartTime) {
+                    return true; // There is a time overlap, indicating a conflict.
+                }
             }
         }
         return false;
@@ -151,6 +153,19 @@ class DayBasedSchedule {
         }
         return minutes;
     }
+    /**
+     * Convert the given DayBasedSchedule object's start and end time
+     * to minutes since midnight.
+     *
+     * @param {DayBasedSchedule} sched The DayBasedSchedule object.
+     * @returns {[number, number]} The start and end minutes since midnight,
+     */
+    _convertStartEndToMinutes(sched) {
+        return [
+            this._getMinutesSinceMidnight(sched.startTime),
+            this._getMinutesSinceMidnight(sched.endTime)
+        ];
+    }
     // [ FOR TESTING - Proxy Methods ]
     // These methods are only for testing purposes.
     // They are used to test private methods.
@@ -206,5 +221,16 @@ class DayBasedSchedule {
     _proxyGetMinutesSinceMidnight(time) {
         return this._getMinutesSinceMidnight(time);
     }
+    /**
+     * Proxy method for convertStartEndToMinutes.
+     * For testing purposes only.
+     *
+     * @param {DayBasedSchedule} sched The DayBasedSchedule object.
+     * @returns {[number, number]} The start and end minutes since midnight,
+     */
+    _proxyConvertStartEndToMinutes(sched) {
+        return this._convertStartEndToMinutes(sched);
+    }
+    ;
 }
 exports.default = DayBasedSchedule;
