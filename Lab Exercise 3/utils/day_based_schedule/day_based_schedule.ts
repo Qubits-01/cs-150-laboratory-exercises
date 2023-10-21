@@ -28,23 +28,45 @@ export default class DayBasedSchedule {
         );
     }
 
-    // GETTERS.
+    // [ GETTERS. ]
+    /**
+     * Get the days of the week of this DayBasedSchedule object.
+     * 
+     * @returns {Day[]} An array of Day objects.
+     */
     get days(): Day[] {
         // Return a copy of the days array (not by reference).
         return [...this._days];
     }
 
+    /**
+     * Get the start time of this DayBasedSchedule object.
+     * 
+     * @returns {Time} The start Time object.
+     */
     get startTime(): Time {
         // Return a copy of the startTime object (not by "reference-like").
         return { ...this._startTime };
     }
 
+    /**
+     * Get the end time of this DayBasedSchedule object.
+     * 
+     * @returns {Time} The end Time object.
+     */
     get endTime(): Time {
         // Return a copy of the endTime object (not by "reference-like").
         return { ...this._endTime };
     }
 
-    // UTILITY METHODS.
+    // [ UTILITY METHODS. ]
+    /**
+     * Check if this DayBasedSchedule object has a conflict with the given
+     * DayBasedSchedule object.
+     * 
+     * @param {DayBasedSchedule} other The other DayBasedSchedule object.
+     * @returns {boolean} True if there is a conflict, false otherwise.
+     */
     hasConflict(other: DayBasedSchedule): boolean {
         for (let day of this.days) {
             if (other.days.includes(day)) {
@@ -76,6 +98,15 @@ export default class DayBasedSchedule {
         return days;
     }
 
+    /**
+     * Extract the AM or PM from the given time string.
+     * 
+     * Accepted time string format samples: "8:00AM", "08:30AM", "10PM",
+     * "9", "3:30"
+     * 
+     * @param {string} time The raw time input string.
+     * @returns {AmOrPm | null} The extracted AmOrPm.
+     */
     private _extractAmOrPm(time: string): AmOrPm | null {
         let amOrPm: string | undefined =
             time.match(/([AP]M)?/g)?.filter(str => str.length > 0)[0];
@@ -83,6 +114,15 @@ export default class DayBasedSchedule {
         return amOrPm === undefined ? null : amOrPm as AmOrPm;
     }
 
+    /**
+     * Extract the hour and minute from the given time string.
+     * 
+     * Accepted time string format samples: "8:00AM", "08:30AM", "10PM",
+     * "9", "3:30"
+     * 
+     * @param {string} time The raw time input string.
+     * @returns {[number, number]} The extracted hour and minute, respectively.
+     */
     private _extractHourMinute(time: string): [number, number] {
         let hourMinuteRegex = /[\d]+/g;
         let [hour, minute]: [string, string | undefined] =
@@ -91,6 +131,17 @@ export default class DayBasedSchedule {
         return [parseInt(hour), minute === undefined ? 0 : parseInt(minute)];
     }
 
+    /**
+     * Build a Time object from the given time string and 
+     * the given callback function that returns AmOrPm.
+     * 
+     * Accepted time string format samples: "8:00AM", "08:30AM", "10PM",
+     * "9", "3:30"
+     * 
+     * @param {string} time The raw time input string.
+     * @param {AmOrPm} amOrPmCB The callback function that returns AmOrPm.
+     * @returns {Time} The built Time object.
+     */
     private _buildTimeObj(time: string, amOrPmCB: () => AmOrPm): Time {
         let [hour, minute]: [number, number] = this._extractHourMinute(time);
 
@@ -101,6 +152,12 @@ export default class DayBasedSchedule {
         };
     }
 
+    /**
+     * Get the minutes since midnight of the given Time object.
+     * 
+     * @param {Time} time The Time object.
+     * @returns {number} The number of minutes since midnight.
+     */
     private _getMinutesSinceMidnight(time: Time): number {
         let minutes: number = time.hour * 60 + time.minute;
 
@@ -117,6 +174,7 @@ export default class DayBasedSchedule {
 
     /**
      * Proxy method for extractDays.
+     * For testing purposes only.
      * 
      * @param {string} rawDays The raw days input string.
      * @returns {Days[]} An array of Day objects.
@@ -127,6 +185,7 @@ export default class DayBasedSchedule {
 
     /**
      * Proxy method for extractAmOrPm.
+     * For testing purposes only.
      * 
      * @param {string} time The raw time input string.
      * @returns {AmOrPm | null} The extracted AmOrPm.
@@ -137,6 +196,7 @@ export default class DayBasedSchedule {
 
     /**
      * Proxy method for extractHourMinute.
+     * For testing purposes only.
      * 
      * @param {string} time The raw time input string.
      * @returns {[number, number]} The extracted hour and minute.
@@ -147,6 +207,7 @@ export default class DayBasedSchedule {
 
     /**
      * Proxy method for buildTimeObj.
+     * For testing purposes only.
      * 
      * @param {string} time The raw time input string.
      * @param {() => AmOrPm} amOrPmCB The callback function that returns AmOrPm.
@@ -158,6 +219,7 @@ export default class DayBasedSchedule {
 
     /**
      * Proxy method for getMinutesSinceMidnight.
+     * For testing purposes only.
      * 
      * @param {Time} time The Time object.
      * @returns {number} The minutes since midnight.
