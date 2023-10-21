@@ -15,31 +15,10 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
     // for a class is 7:00 AM. This is just for sanity check.
     (0, globals_1.test)('Should return 0 or 12:00 AM.', () => {
         // [ Arrange. ]
-        let mockTime = mock._proxyBuildTimeObj("12:00 AM", () => "AM");
+        let time = mock._proxyBuildTimeObj("12:00 AM", () => "AM");
         // [ Act. ]
+        let minutes = mock._proxyGetMinutesSinceMidnight(time);
         // [ Assert. ]
-        // expect(sum(1, 2)).toBe(3);
+        (0, globals_1.expect)(minutes).toBe(0);
     });
 });
-// // Applies to all tests in this file
-// beforeEach(() => {
-//     return initializeCityDatabase();
-// });
-// test('city database has Vienna', () => {
-//     expect(isCity('Vienna')).toBeTruthy();
-// });
-// test('city database has San Juan', () => {
-//     expect(isCity('San Juan')).toBeTruthy();
-// });
-// describe('matching cities to foods', () => {
-//     // Applies only to tests in this describe block
-//     beforeEach(() => {
-//         return initializeFoodDatabase();
-//     });
-//     test('Vienna <3 veal', () => {
-//         expect(isValidCityFoodPair('Vienna', 'Wiener Schnitzel')).toBe(true);
-//     });
-//     test('San Juan <3 plantains', () => {
-//         expect(isValidCityFoodPair('San Juan', 'Mofongo')).toBe(true);
-//     });
-// });

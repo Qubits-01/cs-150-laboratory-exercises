@@ -1,5 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * A class that represents a day-based schedule.
+ *
+ * It is immutable by design. That is, once a DayBasedSchedule object is created,
+ * it cannot be modified. This is to prevent accidental modification
+ * of the object's properties. If you want to modify the object,
+ * you have to create a new one.
+ */
 class DayBasedSchedule {
     constructor(_rawDays, _rawTime) {
         this._rawDays = _rawDays;
@@ -59,7 +67,8 @@ class DayBasedSchedule {
     }
     /**
      * Intelligently split the days string into an array of Day.
-     * Take not that thursday is represented by "Th" (not a two letter string).
+     * Take not that thursday is represented as "Th"
+     * (not a one letter string unlike the other days).
      *
      * @param {string} rawDays The raw days input string.
      * @returns {Days[]} An array of Day objects.

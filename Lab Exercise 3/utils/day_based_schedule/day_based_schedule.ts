@@ -1,5 +1,13 @@
 import { Day, Time, AmOrPm } from "../custom_types";
 
+/**
+ * A class that represents a day-based schedule.
+ * 
+ * It is immutable by design. That is, once a DayBasedSchedule object is created,
+ * it cannot be modified. This is to prevent accidental modification
+ * of the object's properties. If you want to modify the object,
+ * you have to create a new one.
+ */
 export default class DayBasedSchedule {
     // Should not be modifiable outside this class. Use getters instead.
     private readonly _days: Day[];
@@ -79,7 +87,8 @@ export default class DayBasedSchedule {
 
     /**
      * Intelligently split the days string into an array of Day.
-     * Take not that thursday is represented by "Th" (not a two letter string).
+     * Take not that thursday is represented as "Th" 
+     * (not a one letter string unlike the other days).
      * 
      * @param {string} rawDays The raw days input string.
      * @returns {Days[]} An array of Day objects.
