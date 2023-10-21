@@ -83,6 +83,74 @@ describe('[ DayBasedSchedule ]', () => {
         });
     });
 
+    describe('[ _extractAmOrPm ]', () => {
+        test('Should return "AM" for 8:30AM.', () => {
+            // [ Arrange. ]
+            const rawTime = "8:30AM";
+
+            // [ Act. ]
+            let amOrPm: AmOrPm | null = mock._proxyExtractAmOrPm(rawTime);
+
+            // [ Assert. ]
+            expect(amOrPm).toBe("AM");
+        });
+
+        test('Should return "AM" for 10AM.', () => {
+            // [ Arrange. ]
+            const rawTime = "10AM";
+
+            // [ Act. ]
+            let amOrPm: AmOrPm | null = mock._proxyExtractAmOrPm(rawTime);
+
+            // [ Assert. ]
+            expect(amOrPm).toBe("AM");
+        });
+
+        test('Should return "PM" for 5:30PM.', () => {
+            // [ Arrange. ]
+            const rawTime = "5:30PM";
+
+            // [ Act. ]
+            let amOrPm: AmOrPm | null = mock._proxyExtractAmOrPm(rawTime);
+
+            // [ Assert. ]
+            expect(amOrPm).toBe("PM");
+        });
+
+        test('Should return "PM" for 2PM.', () => {
+            // [ Arrange. ]
+            const rawTime = "2PM";
+
+            // [ Act. ]
+            let amOrPm: AmOrPm | null = mock._proxyExtractAmOrPm(rawTime);
+
+            // [ Assert. ]
+            expect(amOrPm).toBe("PM");
+        });
+
+        test('Should return null for 11.', () => {
+            // [ Arrange. ]
+            const rawTime = "11";
+
+            // [ Act. ]
+            let amOrPm: AmOrPm | null = mock._proxyExtractAmOrPm(rawTime);
+
+            // [ Assert. ]
+            expect(amOrPm).toBeNull();
+        });
+
+        test('Should return null for 3:30.', () => {
+            // [ Arrange. ]
+            const rawTime = "3:30";
+
+            // [ Act. ]
+            let amOrPm: AmOrPm | null = mock._proxyExtractAmOrPm(rawTime);
+
+            // [ Assert. ]
+            expect(amOrPm).toBeNull();
+        });
+    });
+
     describe('[ _buildTimeObj ]', () => {
         test('Should return a correct Time object for 8:30AM.', () => {
             // [ Arrange. ]

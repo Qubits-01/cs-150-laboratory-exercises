@@ -67,6 +67,56 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
             (0, globals_1.expect)(days).toEqual(EXPECTED_DAYS);
         });
     });
+    (0, globals_1.describe)('[ _extractAmOrPm ]', () => {
+        (0, globals_1.test)('Should return "AM" for 8:30AM.', () => {
+            // [ Arrange. ]
+            const rawTime = "8:30AM";
+            // [ Act. ]
+            let amOrPm = mock._proxyExtractAmOrPm(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(amOrPm).toBe("AM");
+        });
+        (0, globals_1.test)('Should return "AM" for 10AM.', () => {
+            // [ Arrange. ]
+            const rawTime = "10AM";
+            // [ Act. ]
+            let amOrPm = mock._proxyExtractAmOrPm(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(amOrPm).toBe("AM");
+        });
+        (0, globals_1.test)('Should return "PM" for 5:30PM.', () => {
+            // [ Arrange. ]
+            const rawTime = "5:30PM";
+            // [ Act. ]
+            let amOrPm = mock._proxyExtractAmOrPm(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(amOrPm).toBe("PM");
+        });
+        (0, globals_1.test)('Should return "PM" for 2PM.', () => {
+            // [ Arrange. ]
+            const rawTime = "2PM";
+            // [ Act. ]
+            let amOrPm = mock._proxyExtractAmOrPm(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(amOrPm).toBe("PM");
+        });
+        (0, globals_1.test)('Should return null for 11.', () => {
+            // [ Arrange. ]
+            const rawTime = "11";
+            // [ Act. ]
+            let amOrPm = mock._proxyExtractAmOrPm(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(amOrPm).toBeNull();
+        });
+        (0, globals_1.test)('Should return null for 3:30.', () => {
+            // [ Arrange. ]
+            const rawTime = "3:30";
+            // [ Act. ]
+            let amOrPm = mock._proxyExtractAmOrPm(rawTime);
+            // [ Assert. ]
+            (0, globals_1.expect)(amOrPm).toBeNull();
+        });
+    });
     (0, globals_1.describe)('[ _buildTimeObj ]', () => {
         (0, globals_1.test)('Should return a correct Time object for 8:30AM.', () => {
             var _a;
