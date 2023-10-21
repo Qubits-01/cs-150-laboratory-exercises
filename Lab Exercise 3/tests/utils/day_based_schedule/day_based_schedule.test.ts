@@ -122,76 +122,212 @@ describe('[ DayBasedSchedule ]', () => {
     });
 
     describe('[ hasConflict ]', () => {
-        test('Should return true for 8:30-10AM and 9:00-10AM.', () => {
-            // [ Arrange. ]
-            let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-10AM");
-            let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "9:00-10AM");
+        describe('Same days.', () => {
+            test('Should return true for 8:30-10AM and 9:00-10AM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "9:00-10AM");
 
-            // [ Act. ]
-            let hasConflict: boolean = sched1.hasConflict(sched2);
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
 
-            // [ Assert. ]
-            expect(hasConflict).toBe(true);
+                // [ Assert. ]
+                expect(hasConflict).toBe(true);
+            });
+
+            test('Should return true for 8:30-10AM and 8:30-9AM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-9AM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(true);
+            });
+
+            test('Should return true for 4-5PM and 4:15-4:45PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "4-5PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "4:15-4:45PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(true);
+            });
+
+            test('Should return true for 8:30-10AM and 9-11AM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "9-11AM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(true);
+            });
+
+            test('Should return true for 12:30-4PM and 8AM-1PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "12:30-4PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "8AM-1PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(true);
+            });
+
+            test('Should return false for 8:30-10AM and 10-1PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "10-1PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
+
+            test('Should return false for 2:30-3:30PM and 7AM-2:30PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "2:30-3:30PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "7AM-2:30PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
+
+            test('Should return false for 2:30-3:30PM and 4-5PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "2:30-3:30PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "4-5PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
+
+            test('Should return false for 10:45AM-3PM and 7:30-8AM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "10:45AM-3PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "7:30-8AM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
         });
 
-        test('Should return true for 8:30-10AM and 8:30-9AM.', () => {
-            // [ Arrange. ]
-            let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-10AM");
-            let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-9AM");
+        describe('Varying days.', () => {
+            test('Should return true for MTW 8:30-10AM and WThF 9:00-10AM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("MTW", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("WThF", "9:00-10AM");
 
-            // [ Act. ]
-            let hasConflict: boolean = sched1.hasConflict(sched2);
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
 
-            // [ Assert. ]
-            expect(hasConflict).toBe(true);
-        });
+                // [ Assert. ]
+                expect(hasConflict).toBe(true);
+            });
 
-        test('Should return false for 8:30-10AM and 10-1PM.', () => {
-            // [ Arrange. ]
-            let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "8:30-10AM");
-            let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "10-1PM");
+            test('Should return false for ThFS 8:30-10AM and MT 8:30-9AM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("ThFS", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MT", "8:30-9AM");
 
-            // [ Act. ]
-            let hasConflict: boolean = sched1.hasConflict(sched2);
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
 
-            // [ Assert. ]
-            expect(hasConflict).toBe(false);
-        });
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
 
-        test('Should return false for 2:30-3:30PM and 7AM-2:30PM.', () => {
-            // [ Arrange. ]
-            let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "2:30-3:30PM");
-            let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "7AM-2:30PM");
+            test('Should return true for WF 4-5PM and MTW 4:15-4:45PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("WF", "4-5PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MTW", "4:15-4:45PM");
 
-            // [ Act. ]
-            let hasConflict: boolean = sched1.hasConflict(sched2);
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
 
-            // [ Assert. ]
-            expect(hasConflict).toBe(false);
-        });
+                // [ Assert. ]
+                expect(hasConflict).toBe(true);
+            });
 
-        test('Should return false for 2:30-3:30PM and 4-5PM.', () => {
-            // [ Arrange. ]
-            let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "2:30-3:30PM");
-            let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "4-5PM");
+            test('Should return false for TF 8:30-10AM and MTh 9-11AM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("TF", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MTh", "9-11AM");
 
-            // [ Act. ]
-            let hasConflict: boolean = sched1.hasConflict(sched2);
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
 
-            // [ Assert. ]
-            expect(hasConflict).toBe(false);
-        });
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
 
-        test('Should return false for 10:45AM-3PM and 7:30-8AM.', () => {
-            // [ Arrange. ]
-            let sched1: DayBasedSchedule = new DayBasedSchedule("MWF", "10:45AM-3PM");
-            let sched2: DayBasedSchedule = new DayBasedSchedule("MWF", "7:30-8AM");
+            test('Should return false for Th 12:30-4PM and T 8AM-1PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("Th", "12:30-4PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("T", "8AM-1PM");
 
-            // [ Act. ]
-            let hasConflict: boolean = sched1.hasConflict(sched2);
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
 
-            // [ Assert. ]
-            expect(hasConflict).toBe(false);
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
+
+            test('Should return false for FSM 8:30-10AM and MThT 10-1PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("FSM", "8:30-10AM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MThT", "10-1PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
+
+            test('Should return false for WThF 2:30-3:30PM and ThS 7AM-2:30PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("WThF", "2:30-3:30PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("ThS", "7AM-2:30PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
+
+            test('Should return false for SM 2:30-3:30PM and MF 4-5PM.', () => {
+                // [ Arrange. ]
+                let sched1: DayBasedSchedule = new DayBasedSchedule("SM", "2:30-3:30PM");
+                let sched2: DayBasedSchedule = new DayBasedSchedule("MF", "4-5PM");
+
+                // [ Act. ]
+                let hasConflict: boolean = sched1.hasConflict(sched2);
+
+                // [ Assert. ]
+                expect(hasConflict).toBe(false);
+            });
         });
     });
 

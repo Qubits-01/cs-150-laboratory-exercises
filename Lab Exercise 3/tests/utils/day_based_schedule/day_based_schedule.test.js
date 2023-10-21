@@ -93,59 +93,162 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         });
     });
     (0, globals_1.describe)('[ hasConflict ]', () => {
-        (0, globals_1.test)('Should return true for 8:30-10AM and 9:00-10AM.', () => {
-            // [ Arrange. ]
-            let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
-            let sched2 = new day_based_schedule_1.default("MWF", "9:00-10AM");
-            // [ Act. ]
-            let hasConflict = sched1.hasConflict(sched2);
-            // [ Assert. ]
-            (0, globals_1.expect)(hasConflict).toBe(true);
+        (0, globals_1.describe)('Same days.', () => {
+            (0, globals_1.test)('Should return true for 8:30-10AM and 9:00-10AM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("MWF", "9:00-10AM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(true);
+            });
+            (0, globals_1.test)('Should return true for 8:30-10AM and 8:30-9AM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("MWF", "8:30-9AM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(true);
+            });
+            (0, globals_1.test)('Should return true for 4-5PM and 4:15-4:45PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "4-5PM");
+                let sched2 = new day_based_schedule_1.default("MWF", "4:15-4:45PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(true);
+            });
+            (0, globals_1.test)('Should return true for 8:30-10AM and 9-11AM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("MWF", "9-11AM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(true);
+            });
+            (0, globals_1.test)('Should return true for 12:30-4PM and 8AM-1PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "12:30-4PM");
+                let sched2 = new day_based_schedule_1.default("MWF", "8AM-1PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(true);
+            });
+            (0, globals_1.test)('Should return false for 8:30-10AM and 10-1PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("MWF", "10-1PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return false for 2:30-3:30PM and 7AM-2:30PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "2:30-3:30PM");
+                let sched2 = new day_based_schedule_1.default("MWF", "7AM-2:30PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return false for 2:30-3:30PM and 4-5PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "2:30-3:30PM");
+                let sched2 = new day_based_schedule_1.default("MWF", "4-5PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return false for 10:45AM-3PM and 7:30-8AM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MWF", "10:45AM-3PM");
+                let sched2 = new day_based_schedule_1.default("MWF", "7:30-8AM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
         });
-        (0, globals_1.test)('Should return true for 8:30-10AM and 8:30-9AM.', () => {
-            // [ Arrange. ]
-            let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
-            let sched2 = new day_based_schedule_1.default("MWF", "8:30-9AM");
-            // [ Act. ]
-            let hasConflict = sched1.hasConflict(sched2);
-            // [ Assert. ]
-            (0, globals_1.expect)(hasConflict).toBe(true);
-        });
-        (0, globals_1.test)('Should return false for 8:30-10AM and 10-1PM.', () => {
-            // [ Arrange. ]
-            let sched1 = new day_based_schedule_1.default("MWF", "8:30-10AM");
-            let sched2 = new day_based_schedule_1.default("MWF", "10-1PM");
-            // [ Act. ]
-            let hasConflict = sched1.hasConflict(sched2);
-            // [ Assert. ]
-            (0, globals_1.expect)(hasConflict).toBe(false);
-        });
-        (0, globals_1.test)('Should return false for 2:30-3:30PM and 7AM-2:30PM.', () => {
-            // [ Arrange. ]
-            let sched1 = new day_based_schedule_1.default("MWF", "2:30-3:30PM");
-            let sched2 = new day_based_schedule_1.default("MWF", "7AM-2:30PM");
-            // [ Act. ]
-            let hasConflict = sched1.hasConflict(sched2);
-            // [ Assert. ]
-            (0, globals_1.expect)(hasConflict).toBe(false);
-        });
-        (0, globals_1.test)('Should return false for 2:30-3:30PM and 4-5PM.', () => {
-            // [ Arrange. ]
-            let sched1 = new day_based_schedule_1.default("MWF", "2:30-3:30PM");
-            let sched2 = new day_based_schedule_1.default("MWF", "4-5PM");
-            // [ Act. ]
-            let hasConflict = sched1.hasConflict(sched2);
-            // [ Assert. ]
-            (0, globals_1.expect)(hasConflict).toBe(false);
-        });
-        (0, globals_1.test)('Should return false for 10:45AM-3PM and 7:30-8AM.', () => {
-            // [ Arrange. ]
-            let sched1 = new day_based_schedule_1.default("MWF", "10:45AM-3PM");
-            let sched2 = new day_based_schedule_1.default("MWF", "7:30-8AM");
-            // [ Act. ]
-            let hasConflict = sched1.hasConflict(sched2);
-            // [ Assert. ]
-            (0, globals_1.expect)(hasConflict).toBe(false);
+        (0, globals_1.describe)('Varying days.', () => {
+            (0, globals_1.test)('Should return true for MTW 8:30-10AM and WThF 9:00-10AM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("MTW", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("WThF", "9:00-10AM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(true);
+            });
+            (0, globals_1.test)('Should return false for ThFS 8:30-10AM and MT 8:30-9AM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("ThFS", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("MT", "8:30-9AM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return true for WF 4-5PM and MTW 4:15-4:45PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("WF", "4-5PM");
+                let sched2 = new day_based_schedule_1.default("MTW", "4:15-4:45PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(true);
+            });
+            (0, globals_1.test)('Should return false for TF 8:30-10AM and MTh 9-11AM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("TF", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("MTh", "9-11AM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return false for Th 12:30-4PM and T 8AM-1PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("Th", "12:30-4PM");
+                let sched2 = new day_based_schedule_1.default("T", "8AM-1PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return false for FSM 8:30-10AM and MThT 10-1PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("FSM", "8:30-10AM");
+                let sched2 = new day_based_schedule_1.default("MThT", "10-1PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return false for WThF 2:30-3:30PM and ThS 7AM-2:30PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("WThF", "2:30-3:30PM");
+                let sched2 = new day_based_schedule_1.default("ThS", "7AM-2:30PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
+            (0, globals_1.test)('Should return false for SM 2:30-3:30PM and MF 4-5PM.', () => {
+                // [ Arrange. ]
+                let sched1 = new day_based_schedule_1.default("SM", "2:30-3:30PM");
+                let sched2 = new day_based_schedule_1.default("MF", "4-5PM");
+                // [ Act. ]
+                let hasConflict = sched1.hasConflict(sched2);
+                // [ Assert. ]
+                (0, globals_1.expect)(hasConflict).toBe(false);
+            });
         });
     });
     (0, globals_1.describe)('[ _extractDays ]', () => {
