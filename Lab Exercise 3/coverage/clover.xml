@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1697949207820" clover="3.2.0">
-  <project timestamp="1697949207820" name="All files">
-    <metrics statements="52" coveredstatements="52" conditionals="32" coveredconditionals="31" methods="22" coveredmethods="21" elements="106" coveredelements="104" complexity="0" loc="52" ncloc="52" packages="2" files="2" classes="2"/>
+<coverage generated="1697950610000" clover="3.2.0">
+  <project timestamp="1697950610001" name="All files">
+    <metrics statements="53" coveredstatements="53" conditionals="32" coveredconditionals="31" methods="23" coveredmethods="22" elements="108" coveredelements="106" complexity="0" loc="53" ncloc="53" packages="2" files="2" classes="2"/>
     <package name="day_based_schedule">
       <metrics statements="46" coveredstatements="46" conditionals="32" coveredconditionals="31" methods="20" coveredmethods="20"/>
       <file name="day_based_schedule.js" path="C:\arcanum\cs-150-laboratory-exercises\Lab Exercise 3\utils\day_based_schedule\day_based_schedule.js">
@@ -55,15 +55,16 @@
       </file>
     </package>
     <package name="ge_courses">
-      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
       <file name="ge_courses.js" path="C:\arcanum\cs-150-laboratory-exercises\Lab Exercise 3\utils\ge_courses\ge_courses.js">
-        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="28" count="83" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="32" count="83" type="stmt"/>
+        <line num="33" count="82" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
       </file>
     </package>
   </project>

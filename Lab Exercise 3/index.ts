@@ -44,29 +44,6 @@ class Section {
         return [...this._dayBasedSchedules];
     }
 
-    /**
-     * Get the course name of this Section object.
-     * Some examples of course names are: CS 150, CS 69, Soc Sci 1, etc.
-     * 
-     * @returns {string} The course name.
-     */
-    get courseName(): string {
-        // Get the string/s from first to second to the last
-        // and then join them with a space.
-        return this._completeName.split(" ").slice(0, -1).join(" ");
-    }
-
-    /**
-     * Get the section name of this Section object.
-     * Some examples of section names are: THU, THY2, CLASS 1, LAB 1, etc.
-     * 
-     * @returns {string} The section name.
-     */
-    get sectionName(): string {
-        // Get the last string and return it.
-        return this._completeName.split(" ").slice(-1)[0];
-    }
-
     // [ UTILITY METHODS. ]
     /**
      * Check if this Section object has a scheduling conflict with the other
@@ -77,8 +54,6 @@ class Section {
      * with the other Section object; false otherwise.
      */
     hasConflict(other: Section): boolean {
-        let otherScheds: DayBasedSchedule[] = other.dayBasedSchedules;
-
         // Check if the other section has the same day-based schedule
         // as this section.
         for (let thisSched of this.dayBasedSchedules) {

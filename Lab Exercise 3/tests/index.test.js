@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const globals_1 = require("@jest/globals");
+(0, globals_1.describe)('[ Section ]', () => {
+});
 (0, globals_1.describe)('[ parseInput ]', () => {
     let sampleInput;
     (0, globals_1.beforeAll)(() => {

@@ -64,7 +64,7 @@ export default class DayBasedSchedule {
     // [ UTILITY METHODS. ]
     /**
      * Check if this DayBasedSchedule object has a conflict with the given
-     * DayBasedSchedule object.
+     * other DayBasedSchedule object.
      * 
      * @param {DayBasedSchedule} other The other DayBasedSchedule object.
      * @returns {boolean} True if there is a conflict, false otherwise.

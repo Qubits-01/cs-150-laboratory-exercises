@@ -1,6 +1,10 @@
 import { describe, expect, test, beforeAll } from '@jest/globals';
 import { parseInput } from '../index';
 
+describe('[ Section ]', () => {
+
+});
+
 describe('[ parseInput ]', () => {
     let sampleInput: string;
     beforeAll(() => {
