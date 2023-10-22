@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseInput = void 0;
+exports.getAllWithConflict = exports.getGEs = exports.parseInput = void 0;
 // Import the default export.
 const ge_courses_1 = __importDefault(require("./utils/ge_courses/ge_courses"));
 const day_based_schedule_1 = __importDefault(require("./utils/day_based_schedule/day_based_schedule"));
@@ -47,6 +47,12 @@ class Section {
         return true;
     }
     // GETTERS.
+    /**
+     * Get the day based schedules of this Section object.
+     * The returned array is a copy (not by reference).
+     *
+     * @returns {DayBasedSchedule[]} An array of DayBasedSchedule objects.
+     */
     get dayBasedSchedules() {
         // Return a copy of the dayBasedSchedules array (not by reference).
         // Note that the DayBasedSchedule objects are still by reference.
@@ -55,7 +61,10 @@ class Section {
         return [...this._dayBasedSchedules];
     }
     /**
-     * Returns the course name of this Section object.
+     * Get the course name of this Section object.
+     * Some examples of course names are: CS 150, CS 69, Soc Sci 1, etc.
+     *
+     * @returns {string} The course name.
      */
     get courseName() {
         // Get the string/s from first to second to the last
@@ -63,13 +72,25 @@ class Section {
         return this._completeName.split(" ").slice(0, -1).join(" ");
     }
     /**
-     * Returns the section name of this Section object
+     * Get the section name of this Section object.
+     * Some examples of section names are: THU, THY2, CLASS 1, LAB 1, etc.
+     *
+     * @returns {string} The section name.
      */
     get sectionName() {
         // Get the last string and return it.
         return this._completeName.split(" ").slice(-1)[0];
     }
 }
+/**
+ * This function parses the input string and returns an array of Section objects.
+ *
+ * That is, parseInput takes in a string and tries to create an array containing
+ * Section objects corresponding to each entry in the input string.
+ *
+ * @param {string} input The input string.
+ * @returns {Section[]} An array of Section objects.
+ */
 function parseInput(input) {
     let sections = [];
     input.split("\n").forEach(line => {
@@ -91,73 +112,29 @@ function parseInput(input) {
     return sections;
 }
 exports.parseInput = parseInput;
-// export function getGEs(sections: Section[]): Section[] {
-//     // ...
-// }
-// export function getAllWithConflict(sections: Section[]): Section[] {
-//     // ...
-// }
-// TESTING CODE.
-// Section class.
-let temp = new day_based_schedule_1.default("TTh", "10-11:30AM");
-const sampleSection1 = new Section("CS 153 THU", [temp]);
-console.log(sampleSection1.courseName);
-console.log(sampleSection1.sectionName);
-const sampleSection2 = new Section("DRMAPS THU", [temp]);
-console.log(sampleSection2.courseName);
-console.log(sampleSection2.sectionName);
-const sampleSection3 = new Section("Soc Sci 1 THU", [temp]);
-console.log(sampleSection3.courseName);
-console.log(sampleSection3.sectionName);
-// DayBasedSchedule class.
-const sampleDayBasedSchedule1 = new day_based_schedule_1.default("TTh", "10-11:30AM");
-console.log(sampleDayBasedSchedule1.days);
-const sampleDayBasedSchedule2 = new day_based_schedule_1.default("MTWThFS", "10-11:30AM");
-console.log(sampleDayBasedSchedule2.days);
-const sampleDayBasedSchedule3 = new day_based_schedule_1.default("Th", "10-11:30AM");
-console.log(sampleDayBasedSchedule3.days);
-const sampleDayBasedSchedule4 = new day_based_schedule_1.default("MT", "10-11:30AM");
-console.log(sampleDayBasedSchedule4.days);
-const sampleDayBasedSchedule5 = new day_based_schedule_1.default("ThFS", "10-11:30AM");
-console.log(sampleDayBasedSchedule5.days);
-// DayBasedSchedule class (time).
-console.log("Th 10-11:30AM");
-const sampleDayBasedSchedule6 = new day_based_schedule_1.default("Th", "10-11:30AM");
-console.log(sampleDayBasedSchedule6.days);
-console.log(sampleDayBasedSchedule6.startTime);
-console.log(sampleDayBasedSchedule6.endTime);
-sampleDayBasedSchedule1.startTime.amOrPm = "PM";
-console.log(sampleDayBasedSchedule1.startTime); // Should not change.
-console.log("TTh 10-11:30AM");
-const sampleDayBasedSchedule7 = new day_based_schedule_1.default("TTh", "10-11:30AM");
-console.log(sampleDayBasedSchedule7.days);
-console.log(sampleDayBasedSchedule7.startTime);
-console.log(sampleDayBasedSchedule7.endTime);
-console.log("W 10AM-12PM");
-const sampleDayBasedSchedule8 = new day_based_schedule_1.default("W", "10AM-12PM");
-console.log(sampleDayBasedSchedule8.days);
-console.log(sampleDayBasedSchedule8.startTime);
-console.log(sampleDayBasedSchedule8.endTime);
-console.log("F 10AM-1PM");
-const sampleDayBasedSchedule9 = new day_based_schedule_1.default("F", "10AM-1PM");
-console.log(sampleDayBasedSchedule9.days);
-console.log(sampleDayBasedSchedule9.startTime);
-console.log(sampleDayBasedSchedule9.endTime);
-console.log("F 1-4PM");
-const sampleDayBasedSchedule10 = new day_based_schedule_1.default("F", "1-4PM");
-console.log(sampleDayBasedSchedule10.days);
-console.log(sampleDayBasedSchedule10.startTime);
-console.log(sampleDayBasedSchedule10.endTime);
-console.log("TTh 1-2PM");
-const sampleDayBasedSchedule11 = new day_based_schedule_1.default("TTh", "1-2PM");
-console.log(sampleDayBasedSchedule11.days);
-console.log(sampleDayBasedSchedule11.startTime);
-console.log(sampleDayBasedSchedule11.endTime);
-console.log("TTh 4-5:30PM");
-const sampleDayBasedSchedule12 = new day_based_schedule_1.default("TTh", "4-5:30PM");
-console.log(sampleDayBasedSchedule12.days);
-console.log(sampleDayBasedSchedule12.startTime);
-console.log(sampleDayBasedSchedule12.endTime);
-// Section (hasConflict).
+/**
+ * This function should return a new array of Section objects with the same
+ * sort order of the input array, but with all sections that correspond to
+ * GEs filtered out.
+ *
+ * @param {Section[]} sections The array of Section objects.
+ * @returns {Section[]} The filtered array of Section objects.
+ */
+function getGEs(sections) {
+    return [];
+}
+exports.getGEs = getGEs;
+/**
+ * This function should return a new array of Section objects with at
+ * least one scheduling conflict with any of the other Section objects
+ * in the input array (apart from itself).
+ *
+ * @param {Section[]} sections The array of Section objects.
+ * @returns {Section[]} The filtered array of Section objects.
+ */
+function getAllWithConflict(sections) {
+    return [];
+}
+exports.getAllWithConflict = getAllWithConflict;
 // Whole program.
 parseInput(sample_input);

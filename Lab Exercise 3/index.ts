@@ -50,6 +50,12 @@ class Section {
     }
 
     // GETTERS.
+    /**
+     * Get the day based schedules of this Section object.
+     * The returned array is a copy (not by reference).
+     * 
+     * @returns {DayBasedSchedule[]} An array of DayBasedSchedule objects.
+     */
     get dayBasedSchedules(): DayBasedSchedule[] {
         // Return a copy of the dayBasedSchedules array (not by reference).
         // Note that the DayBasedSchedule objects are still by reference.
@@ -59,7 +65,10 @@ class Section {
     }
 
     /**
-     * Returns the course name of this Section object.
+     * Get the course name of this Section object.
+     * Some examples of course names are: CS 150, CS 69, Soc Sci 1, etc.
+     * 
+     * @returns {string} The course name.
      */
     get courseName(): string {
         // Get the string/s from first to second to the last
@@ -68,7 +77,10 @@ class Section {
     }
 
     /**
-     * Returns the section name of this Section object
+     * Get the section name of this Section object.
+     * Some examples of section names are: THU, THY2, CLASS 1, LAB 1, etc.
+     * 
+     * @returns {string} The section name.
      */
     get sectionName(): string {
         // Get the last string and return it.
@@ -78,6 +90,15 @@ class Section {
     // UTILITY METHODS.
 }
 
+/**
+ * This function parses the input string and returns an array of Section objects.
+ * 
+ * That is, parseInput takes in a string and tries to create an array containing 
+ * Section objects corresponding to each entry in the input string.
+ * 
+ * @param {string} input The input string.
+ * @returns {Section[]} An array of Section objects.
+ */
 export function parseInput(input: string): Section[] {
     let sections: Section[] = [];
     input.split("\n").forEach(line => {
@@ -106,92 +127,30 @@ export function parseInput(input: string): Section[] {
     return sections;
 }
 
-// export function getGEs(sections: Section[]): Section[] {
-//     // ...
-// }
 
-// export function getAllWithConflict(sections: Section[]): Section[] {
-//     // ...
-// }
+/**
+ * This function should return a new array of Section objects with the same
+ * sort order of the input array, but with all sections that correspond to 
+ * GEs filtered out.
+ * 
+ * @param {Section[]} sections The array of Section objects.
+ * @returns {Section[]} The filtered array of Section objects.
+ */
+export function getGEs(sections: Section[]): Section[] {
+    return [];
+}
 
-// TESTING CODE.
-// Section class.
-let temp = new DayBasedSchedule("TTh", "10-11:30AM");
-const sampleSection1 = new Section("CS 153 THU", [temp]);
-console.log(sampleSection1.courseName);
-console.log(sampleSection1.sectionName);
-
-const sampleSection2 = new Section("DRMAPS THU", [temp]);
-console.log(sampleSection2.courseName);
-console.log(sampleSection2.sectionName);
-
-const sampleSection3 = new Section("Soc Sci 1 THU", [temp]);
-console.log(sampleSection3.courseName);
-console.log(sampleSection3.sectionName);
-
-// DayBasedSchedule class.
-const sampleDayBasedSchedule1 = new DayBasedSchedule("TTh", "10-11:30AM");
-console.log(sampleDayBasedSchedule1.days);
-
-const sampleDayBasedSchedule2 = new DayBasedSchedule("MTWThFS", "10-11:30AM");
-console.log(sampleDayBasedSchedule2.days);
-
-const sampleDayBasedSchedule3 = new DayBasedSchedule("Th", "10-11:30AM");
-console.log(sampleDayBasedSchedule3.days);
-
-const sampleDayBasedSchedule4 = new DayBasedSchedule("MT", "10-11:30AM");
-console.log(sampleDayBasedSchedule4.days);
-
-const sampleDayBasedSchedule5 = new DayBasedSchedule("ThFS", "10-11:30AM");
-console.log(sampleDayBasedSchedule5.days);
-
-// DayBasedSchedule class (time).
-console.log("Th 10-11:30AM");
-const sampleDayBasedSchedule6 = new DayBasedSchedule("Th", "10-11:30AM");
-console.log(sampleDayBasedSchedule6.days);
-console.log(sampleDayBasedSchedule6.startTime);
-console.log(sampleDayBasedSchedule6.endTime);
-sampleDayBasedSchedule1.startTime.amOrPm = "PM";
-console.log(sampleDayBasedSchedule1.startTime); // Should not change.
-
-console.log("TTh 10-11:30AM");
-const sampleDayBasedSchedule7 = new DayBasedSchedule("TTh", "10-11:30AM");
-console.log(sampleDayBasedSchedule7.days);
-console.log(sampleDayBasedSchedule7.startTime);
-console.log(sampleDayBasedSchedule7.endTime);
-
-console.log("W 10AM-12PM");
-const sampleDayBasedSchedule8 = new DayBasedSchedule("W", "10AM-12PM");
-console.log(sampleDayBasedSchedule8.days);
-console.log(sampleDayBasedSchedule8.startTime);
-console.log(sampleDayBasedSchedule8.endTime);
-
-console.log("F 10AM-1PM");
-const sampleDayBasedSchedule9 = new DayBasedSchedule("F", "10AM-1PM");
-console.log(sampleDayBasedSchedule9.days);
-console.log(sampleDayBasedSchedule9.startTime);
-console.log(sampleDayBasedSchedule9.endTime);
-
-console.log("F 1-4PM");
-const sampleDayBasedSchedule10 = new DayBasedSchedule("F", "1-4PM");
-console.log(sampleDayBasedSchedule10.days);
-console.log(sampleDayBasedSchedule10.startTime);
-console.log(sampleDayBasedSchedule10.endTime);
-
-console.log("TTh 1-2PM");
-const sampleDayBasedSchedule11 = new DayBasedSchedule("TTh", "1-2PM");
-console.log(sampleDayBasedSchedule11.days);
-console.log(sampleDayBasedSchedule11.startTime);
-console.log(sampleDayBasedSchedule11.endTime);
-
-console.log("TTh 4-5:30PM");
-const sampleDayBasedSchedule12 = new DayBasedSchedule("TTh", "4-5:30PM");
-console.log(sampleDayBasedSchedule12.days);
-console.log(sampleDayBasedSchedule12.startTime);
-console.log(sampleDayBasedSchedule12.endTime);
-
-// Section (hasConflict).
-
+/**
+ * This function should return a new array of Section objects with at 
+ * least one scheduling conflict with any of the other Section objects 
+ * in the input array (apart from itself).
+ * 
+ * @param {Section[]} sections The array of Section objects.
+ * @returns {Section[]} The filtered array of Section objects.
+ */
+export function getAllWithConflict(sections: Section[]): Section[] {
+    return [];
+}
 
 // Whole program.
 parseInput(sample_input);
