@@ -29,27 +29,7 @@ class Section {
         private readonly _dayBasedSchedules: DayBasedSchedule[],
     ) { }
 
-    hasConflict(other: Section): boolean {
-        let otherScheds: DayBasedSchedule[] = other.dayBasedSchedules;
-
-        // Check if the other section has the same day-based schedule
-        // as this section.
-        for (let thisSched of this.dayBasedSchedules) {
-            for (let otherSched of other.dayBasedSchedules) {
-                if (thisSched.hasConflict(otherSched)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    hasSlots(): boolean {
-        return true;
-    }
-
-    // GETTERS.
+    // [ GETTERS. ]
     /**
      * Get the day based schedules of this Section object.
      * The returned array is a copy (not by reference).
@@ -87,7 +67,41 @@ class Section {
         return this._completeName.split(" ").slice(-1)[0];
     }
 
-    // UTILITY METHODS.
+    // [ UTILITY METHODS. ]
+    /**
+     * Check if this Section object has a scheduling conflict with the other
+     * Section object.
+     * 
+     * @param {Section} other The other Section object.
+     * @returns {boolean} True if this Section object has a scheduling conflict
+     * with the other Section object; false otherwise.
+     */
+    hasConflict(other: Section): boolean {
+        let otherScheds: DayBasedSchedule[] = other.dayBasedSchedules;
+
+        // Check if the other section has the same day-based schedule
+        // as this section.
+        for (let thisSched of this.dayBasedSchedules) {
+            for (let otherSched of other.dayBasedSchedules) {
+                if (thisSched.hasConflict(otherSched)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // TODO: Will ask sir about this. The sample input string has no 
+    // "slots" related data.
+    /**
+     * Check if this Section object has slots.
+     * 
+     * @returns {boolean} True if this Section object has slots; false otherwise.
+     */
+    hasSlots(): boolean {
+        return true;
+    }
 }
 
 /**
@@ -126,7 +140,6 @@ export function parseInput(input: string): Section[] {
 
     return sections;
 }
-
 
 /**
  * This function should return a new array of Section objects with the same

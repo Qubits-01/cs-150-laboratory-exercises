@@ -30,23 +30,7 @@ class Section {
         this._completeName = _completeName;
         this._dayBasedSchedules = _dayBasedSchedules;
     }
-    hasConflict(other) {
-        let otherScheds = other.dayBasedSchedules;
-        // Check if the other section has the same day-based schedule
-        // as this section.
-        for (let thisSched of this.dayBasedSchedules) {
-            for (let otherSched of other.dayBasedSchedules) {
-                if (thisSched.hasConflict(otherSched)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    hasSlots() {
-        return true;
-    }
-    // GETTERS.
+    // [ GETTERS. ]
     /**
      * Get the day based schedules of this Section object.
      * The returned array is a copy (not by reference).
@@ -80,6 +64,38 @@ class Section {
     get sectionName() {
         // Get the last string and return it.
         return this._completeName.split(" ").slice(-1)[0];
+    }
+    // [ UTILITY METHODS. ]
+    /**
+     * Check if this Section object has a scheduling conflict with the other
+     * Section object.
+     *
+     * @param {Section} other The other Section object.
+     * @returns {boolean} True if this Section object has a scheduling conflict
+     * with the other Section object; false otherwise.
+     */
+    hasConflict(other) {
+        let otherScheds = other.dayBasedSchedules;
+        // Check if the other section has the same day-based schedule
+        // as this section.
+        for (let thisSched of this.dayBasedSchedules) {
+            for (let otherSched of other.dayBasedSchedules) {
+                if (thisSched.hasConflict(otherSched)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    // TODO: Will ask sir about this. The sample input string has no 
+    // "slots" related data.
+    /**
+     * Check if this Section object has slots.
+     *
+     * @returns {boolean} True if this Section object has slots; false otherwise.
+     */
+    hasSlots() {
+        return true;
     }
 }
 /**
