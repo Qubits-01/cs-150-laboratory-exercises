@@ -11,6 +11,9 @@ export default class GECourses {
      */
     private constructor() { }
 
+    /**
+     * The path to the ge_courses.txt file.
+     */
     static COURSES_FILE_PATH: string = "utils/ge_courses/ge_courses.txt";
 
     /**

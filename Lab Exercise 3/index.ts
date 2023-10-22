@@ -34,8 +34,12 @@ class Section {
 
         // Check if the other section has the same day-based schedule
         // as this section.
-        for (let dayBasedSched of this.dayBasedSchedules) {
-            console.log(dayBasedSched);
+        for (let thisSched of this.dayBasedSchedules) {
+            for (let otherSched of other.dayBasedSchedules) {
+                if (thisSched.hasConflict(otherSched)) {
+                    return true;
+                }
+            }
         }
 
         return false;

@@ -9,6 +9,7 @@
     "ts-jest": "^29.1.1"
   },
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest",
+    "coverage": "jest --coverage"
   }
 }

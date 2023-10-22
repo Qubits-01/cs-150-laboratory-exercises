@@ -21,6 +21,26 @@ describe('[ GECourses ]', () => {
             // [ Assert. ]
             expect(actual.length).toBeGreaterThan(0);
         });
+
+        test('Should return an array of strings.', () => {
+            // [ Act. ]
+            const actual: string[] = GECourses.COURSES;
+
+            // [ Assert. ]
+            for (let course of actual) {
+                expect(typeof course).toBe("string");
+            }
+        });
+
+        // Should return 82 courses.
+        test('Should return 82 courses.', () => {
+            // [ Act. ]
+            const actual: string[] = GECourses.COURSES;
+
+            // [ Assert. ]
+            const EXPECTED_COURSES_COUNT = 82;
+            expect(actual.length).toBe(EXPECTED_COURSES_COUNT);
+        });
     });
 });
 

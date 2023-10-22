@@ -12,6 +12,9 @@ class GECourses {
      */
     constructor() { }
 }
+/**
+ * The path to the ge_courses.txt file.
+ */
 GECourses.COURSES_FILE_PATH = "utils/ge_courses/ge_courses.txt";
 /**
  * The list of GE courses read from the ge_courses.txt file.

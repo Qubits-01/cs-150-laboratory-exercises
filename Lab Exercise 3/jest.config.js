@@ -6,5 +6,4 @@ module.exports = {
   testPathIgnorePatterns: [".d.ts", ".js"],
   collectCoverage: true,
   coverageDirectory: "coverage",
-  
 };
