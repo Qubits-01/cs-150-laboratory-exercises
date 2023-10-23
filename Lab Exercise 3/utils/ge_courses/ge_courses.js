@@ -49,7 +49,6 @@ class GECoursesSingleton {
         }
         return GECoursesSingleton._instance;
     }
-    // [ GETTERS. ]
     // [ UTILITY METHODS. ]
     /**
      * Check if the given course name is a GE course.
@@ -58,8 +57,21 @@ class GECoursesSingleton {
      * @returns {boolean} True if the given course name is a GE course;
      * false otherwise.
      */
-    static isGE(courseName) {
-        return true;
+    isGE(courseName) {
+        // Tokenize and convert the course name to lowercase since the GE courses
+        // name are case-insensitive (i.e., "CS 11" is the same as "cs 11").
+        let courseNameTokens = courseName.toLowerCase().split(" ");
+        // Check if any of the geCoursesTokens is in match with the courseNameTokens.
+        // Token comparison begins at the leftmost index.
+        for (let geCourseTokens of this._coursesTokens) {
+            for (let [index, geToken] of geCourseTokens.entries()) {
+                if (geToken !== courseNameTokens[index]) {
+                    break;
+                }
+            }
+            return true;
+        }
+        return false;
     }
     // [ PROXY METHODS, GETTERS, and OTHERS. ]
     // These are for testing purposes only.

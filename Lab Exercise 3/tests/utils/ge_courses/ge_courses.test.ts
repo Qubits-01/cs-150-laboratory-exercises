@@ -80,5 +80,9 @@ describe('[ GECoursesSingleton ]', () => {
             expect(actual.length).toBe(geCourses._numberOfCourses);
         });
     });
+
+    describe('[ isGE ]', () => {
+
+    });
 });
 

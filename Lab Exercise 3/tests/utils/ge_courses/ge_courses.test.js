@@ -62,4 +62,6 @@ const ge_courses_1 = __importDefault(require("../../../utils/ge_courses/ge_cours
             (0, globals_1.expect)(actual.length).toBe(geCourses._numberOfCourses);
         });
     });
+    (0, globals_1.describe)('[ isGE ]', () => {
+    });
 });
