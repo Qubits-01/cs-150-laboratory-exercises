@@ -63,5 +63,13 @@ const ge_courses_1 = __importDefault(require("../../../utils/ge_courses/ge_cours
         });
     });
     (0, globals_1.describe)('[ isGE ]', () => {
+        (0, globals_1.test)('Should return false for CS 150 Lab 4.', () => {
+            // [ Arrange. ]
+            const courseName = "CS 150 Lab 4";
+            // [ Act. ]
+            const actual = geCourses.isGE(courseName);
+            // [ Assert. ]
+            (0, globals_1.expect)(actual).toBe(false);
+        });
     });
 });

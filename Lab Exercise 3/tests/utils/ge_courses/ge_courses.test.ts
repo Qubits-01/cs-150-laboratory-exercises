@@ -82,7 +82,16 @@ describe('[ GECoursesSingleton ]', () => {
     });
 
     describe('[ isGE ]', () => {
+        test('Should return false for CS 150 Lab 4.', () => {
+            // [ Arrange. ]
+            const courseName: string = "CS 150 Lab 4";
 
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(false);
+        });
     });
 });
 

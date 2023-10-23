@@ -82,13 +82,15 @@ export default class GECoursesSingleton {
         // Check if any of the geCoursesTokens is in match with the courseNameTokens.
         // Token comparison begins at the leftmost index.
         for (let geCourseTokens of this._coursesTokens) {
-            for (let [index, geToken] of geCourseTokens.entries()) {
-                if (geToken !== courseNameTokens[index]) {
-                    break;
-                }
-            }
+            let n = geCourseTokens.length;
+            let m = 0;
 
-            return true;
+            for (let [index, geToken] of geCourseTokens.entries()) {
+                if (geToken !== courseNameTokens[index]) { break; }
+
+                m++;
+                if (m === n) { return true }
+            }
         }
 
         return false;
@@ -122,3 +124,10 @@ export default class GECoursesSingleton {
         return deepCopy<string[][]>(this._coursesTokens);
     }
 }
+
+
+// test isGE().
+let geCourses: GECoursesSingleton = GECoursesSingleton.getInstance();
+
+console.log(geCourses.isGE("CS 150 Lab 4"));
+console.log(geCourses.isGE("Soc Sci 2 TTh"));
