@@ -1,4 +1,5 @@
 import { readFileSync } from "fs";
+import deepCopy from "../deep_copy";
 
 /**
  * A singleton class that contains the list of GE courses.
@@ -16,11 +17,14 @@ export default class GECoursesSingleton {
     private static _instance: GECoursesSingleton | null = null;
 
     /**
-     * The list of GE courses read from the ge_courses.txt file.
+     * The list of GE courses tokens.
+     * For example: 
+     * [["cs", "11"], ["cs", "12"], ["soc", "sci", "2"], ...].
      * 
-     * @returns {string[]} The list of GE courses.
+     * @returns {string[][]} The list of GE courses tokens.
+     * A 2D array of strings.
      */
-    private readonly _courses: string[];
+    private readonly _coursesTokens: string[][];
 
     /**
      * Create a new instance of this class.
@@ -38,13 +42,15 @@ export default class GECoursesSingleton {
          * filter out empty lines (if any), trim each line.
          * 
          * Also, convert each line to lowercase since the GE courses
-         * name are case-insensitive (i.e., "CS 11" is the same as "cs 11").
+         * name are case-insensitive (i.e., "CS 11" is the same as "cs 11"),
+         * and split each line into tokens (by space).
+         * 
          * This will be useful later when we compare the course names.
          */
-        this._courses = readFileSync(this._filePath, "utf8")
+        this._coursesTokens = readFileSync(this._filePath, "utf8")
             .split("\r\n")
             .filter(line => line.length > 0)
-            .map(geCourse => geCourse.trim().toLowerCase());
+            .map(geCourse => geCourse.trim().toLowerCase().split(" "));
     }
 
     /**
@@ -61,33 +67,6 @@ export default class GECoursesSingleton {
     }
 
     // [ GETTERS. ]
-    /**
-     * Get the path to the ge_courses.txt file.
-     * 
-     * @returns {string} The path to the file.
-     * Defaults to "utils/ge_courses/ge_courses.txt".
-     */
-    get filePath(): string { return this._filePath; }
-
-    /**
-     * Get the list of GE courses.
-     * The returned array is a copy (not by reference).
-     * 
-     * @returns {string[]} The list of GE courses.
-     */
-    get courses(): string[] { return [...this._courses]; }
-
-    /**
-     * The number of GE courses.
-     * This is useful when we want to iterate over the list of GE courses.
-     * 
-     * @example
-     * for (let i = 0; i < GECourses.COURSES_LENGTH; i++) {
-     *    // Do something with GECourses.COURSES[i].
-     * } 
-     */
-    get numberOfCourses(): number { return this._courses.length; }
-
     // [ UTILITY METHODS. ]
     /**
      * Check if the given course name is a GE course.
@@ -97,15 +76,35 @@ export default class GECoursesSingleton {
      * false otherwise.
      */
     static isGE(courseName: string): boolean {
-        for (let geCourse of GECoursesSingleton.getInstance().courses) {
-            if (courseName.toLowerCase().includes(geCourse)) {
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
-}
 
-let geCourses = GECoursesSingleton.getInstance();
-console.log(geCourses);
+    // [ PROXY METHODS, GETTERS, and OTHERS. ]
+    // These are for testing purposes only.
+    // They are not meant to be used outside of this class.
+
+    /**
+     * Proxy getter for the _filePath property.
+     * 
+     * @returns {string} The path to the ge_courses.txt file.
+     */
+    get _proxyFilePath(): string { return this._filePath; }
+
+    /**
+     * Getter for the total number of GE courses.
+     * 
+     * @returns {number} The total number of GE courses.
+     */
+    get _numberOfCourses(): number { return this._coursesTokens.length; }
+
+    /**
+     * Proxy getter for the _coursesTokens property.
+     * 
+     * Returns a deep copy of the _coursesTokens property instead.
+     * This is to avoid accidental modification of the _coursesTokens property.
+     */
+    get _proxyCoursesTokens(): string[][] {
+        return deepCopy<string[][]>(this._coursesTokens);
+    }
+
+}

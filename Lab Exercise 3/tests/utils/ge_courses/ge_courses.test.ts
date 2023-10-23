@@ -1,45 +1,83 @@
 import { describe, expect, test, beforeAll } from '@jest/globals';
-import GECourses from '../../../utils/ge_courses/ge_courses';
+import GECoursesSingleton from '../../../utils/ge_courses/ge_courses';
 
-describe('[ GECourses ]', () => {
-    describe('[ COURSES_FILE_PATH ]', () => {
-        test('Should return "utils/ge_courses/ge_courses.txt".', () => {
+describe('[ GECoursesSingleton ]', () => {
+    let geCourses: GECoursesSingleton;
+    beforeAll(() => {
+        geCourses = GECoursesSingleton.getInstance();
+    });
+
+    describe(' [ _instance ]', () => {
+        test('Should be an instance of GECoursesSingleton.', () => {
             // [ Act. ]
-            const actual: string = GECourses.COURSES_FILE_PATH;
+            const actual: boolean = geCourses instanceof GECoursesSingleton;
 
             // [ Assert. ]
-            const EXPECTED_COURSES_FILE_PATH = "utils/ge_courses/ge_courses.txt";
-            expect(actual).toBe(EXPECTED_COURSES_FILE_PATH);
+            expect(actual).toBe(true);
+        });
+
+        test('Should be a singleton.', () => {
+            // [ Arrange. ]
+            const expected: GECoursesSingleton = geCourses;
+
+            // [ Act. ]
+            const actual: GECoursesSingleton = GECoursesSingleton.getInstance();
+
+            // [ Assert. ]
+            expect(actual).toBe(expected);
         });
     });
 
-    describe('[ COURSES ]', () => {
+    describe('[ _filePath ]', () => {
+        test('Should return "utils/ge_courses/ge_courses.txt".', () => {
+            // [ Arrange. ]
+            const expected: string = "utils/ge_courses/ge_courses.txt";
+
+            // [ Act. ]
+            const actual: string = geCourses._proxyFilePath;
+
+            // [ Assert. ]
+            expect(actual).toBe(expected);
+        });
+
+        test('Should not be an empty string.', () => {
+            // [ Act. ]
+            const actual: string = geCourses._proxyFilePath;
+
+            // [ Assert. ]
+            expect(actual.length).toBeGreaterThan(0);
+        });
+    });
+
+    describe('[ _coursesTokens ]', () => {
         test('Should return a non-empty array.', () => {
             // [ Act. ]
-            const actual: string[] = GECourses.COURSES;
+            const actual: string[][] = geCourses._proxyCoursesTokens;
 
             // [ Assert. ]
             expect(actual.length).toBeGreaterThan(0);
         });
 
-        test('Should return an array of strings.', () => {
+        test('Should return a 2D array of strings', () => {
             // [ Act. ]
-            const actual: string[] = GECourses.COURSES;
+            const actual: string[][] = geCourses._proxyCoursesTokens;
 
             // [ Assert. ]
-            for (let course of actual) {
-                expect(typeof course).toBe("string");
-            }
+            expect(
+                actual.every(
+                    courseTokens => courseTokens.every(
+                        token => typeof token === "string"
+                    )
+                )
+            ).toBe(true);
         });
 
-        // Should return 82 courses.
-        test('Should return 82 courses.', () => {
+        test(`Should return the correct number of GE courses.`, () => {
             // [ Act. ]
-            const actual: string[] = GECourses.COURSES;
+            const actual: string[][] = geCourses._proxyCoursesTokens;
 
             // [ Assert. ]
-            const EXPECTED_COURSES_COUNT = 82;
-            expect(actual.length).toBe(EXPECTED_COURSES_COUNT);
+            expect(actual.length).toBe(geCourses._numberOfCourses);
         });
     });
 });

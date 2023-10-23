@@ -4,8 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllWithConflict = exports.getGEs = exports.parseInput = void 0;
-// Import the default export.
-const ge_courses_1 = __importDefault(require("./utils/ge_courses/ge_courses"));
 const day_based_schedule_1 = __importDefault(require("./utils/day_based_schedule/day_based_schedule"));
 // TODO: Improve documentation (via docstrings).
 // TODO: Add unit tests and integration tests using Jest.
@@ -14,8 +12,6 @@ CS 11 CLASS 1,W 10AM-12PM lab TBA; F 10AM-1PM lec TBA
 CS 12 LAB 1,F 1-4PM lab TL3
 CS 12 LEC 2,TTh 1-2PM lec P&G
 CS 31 THY2,TTh 4-5:30PM lec CLR3`;
-console.log(ge_courses_1.default.COURSES);
-console.log(ge_courses_1.default.COURSES.length);
 /**
  * This class represents a Section (w/ day-based schedules).
  *
@@ -76,10 +72,6 @@ class Section {
         return false;
     }
     isGE() {
-        for (let ge in ge_courses_1.default.COURSES) {
-            for (let char of ge) {
-            }
-        }
         return true;
     }
     // TODO: Will ask sir about this. The sample input string has no 

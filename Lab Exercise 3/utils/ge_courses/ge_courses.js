@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
+const deep_copy_1 = __importDefault(require("../deep_copy"));
 /**
  * A singleton class that contains the list of GE courses.
  *
@@ -24,13 +28,15 @@ class GECoursesSingleton {
          * filter out empty lines (if any), trim each line.
          *
          * Also, convert each line to lowercase since the GE courses
-         * name are case-insensitive (i.e., "CS 11" is the same as "cs 11").
+         * name are case-insensitive (i.e., "CS 11" is the same as "cs 11"),
+         * and split each line into tokens (by space).
+         *
          * This will be useful later when we compare the course names.
          */
-        this._courses = (0, fs_1.readFileSync)(this._filePath, "utf8")
+        this._coursesTokens = (0, fs_1.readFileSync)(this._filePath, "utf8")
             .split("\r\n")
             .filter(line => line.length > 0)
-            .map(geCourse => geCourse.trim().toLowerCase());
+            .map(geCourse => geCourse.trim().toLowerCase().split(" "));
     }
     /**
      * Get the singleton instance of this class.
@@ -44,30 +50,6 @@ class GECoursesSingleton {
         return GECoursesSingleton._instance;
     }
     // [ GETTERS. ]
-    /**
-     * Get the path to the ge_courses.txt file.
-     *
-     * @returns {string} The path to the file.
-     * Defaults to "utils/ge_courses/ge_courses.txt".
-     */
-    get filePath() { return this._filePath; }
-    /**
-     * Get the list of GE courses.
-     * The returned array is a copy (not by reference).
-     *
-     * @returns {string[]} The list of GE courses.
-     */
-    get courses() { return [...this._courses]; }
-    /**
-     * The number of GE courses.
-     * This is useful when we want to iterate over the list of GE courses.
-     *
-     * @example
-     * for (let i = 0; i < GECourses.COURSES_LENGTH; i++) {
-     *    // Do something with GECourses.COURSES[i].
-     * }
-     */
-    get numberOfCourses() { return this._courses.length; }
     // [ UTILITY METHODS. ]
     /**
      * Check if the given course name is a GE course.
@@ -77,12 +59,31 @@ class GECoursesSingleton {
      * false otherwise.
      */
     static isGE(courseName) {
-        for (let geCourse of GECoursesSingleton.getInstance().courses) {
-            if (courseName.toLowerCase().includes(geCourse)) {
-                return true;
-            }
-        }
-        return false;
+        return true;
+    }
+    // [ PROXY METHODS, GETTERS, and OTHERS. ]
+    // These are for testing purposes only.
+    // They are not meant to be used outside of this class.
+    /**
+     * Proxy getter for the _filePath property.
+     *
+     * @returns {string} The path to the ge_courses.txt file.
+     */
+    get _proxyFilePath() { return this._filePath; }
+    /**
+     * Getter for the total number of GE courses.
+     *
+     * @returns {number} The total number of GE courses.
+     */
+    get _numberOfCourses() { return this._coursesTokens.length; }
+    /**
+     * Proxy getter for the _coursesTokens property.
+     *
+     * Returns a deep copy of the _coursesTokens property instead.
+     * This is to avoid accidental modification of the _coursesTokens property.
+     */
+    get _proxyCoursesTokens() {
+        return (0, deep_copy_1.default)(this._coursesTokens);
     }
 }
 /**
@@ -92,5 +93,3 @@ class GECoursesSingleton {
  */
 GECoursesSingleton._instance = null;
 exports.default = GECoursesSingleton;
-let geCourses = GECoursesSingleton.getInstance();
-console.log(geCourses);

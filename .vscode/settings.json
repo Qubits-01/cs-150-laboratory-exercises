@@ -5,6 +5,7 @@
     "Araling",
     "Archaeo",
     "Arkiyoloji",
+    "codepaths",
     "docstrings",
     "DRMAPS",
     "ERDT",
@@ -20,7 +21,8 @@
     "Sched",
     "Scheds",
     "SOSC",
-    "strs"
+    "strs",
+    "tsbuildinfo"
   ],
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
