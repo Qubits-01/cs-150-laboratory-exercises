@@ -67,7 +67,6 @@ class GECoursesSingleton {
             let n = geCourseTokens.length;
             let m = 0;
             for (let [index, geToken] of geCourseTokens.entries()) {
-                console.log(index, geToken, courseNameTokens[index]);
                 if (geToken !== courseNameTokens[index]) {
                     break;
                 }
@@ -111,7 +110,3 @@ class GECoursesSingleton {
  */
 GECoursesSingleton._instance = null;
 exports.default = GECoursesSingleton;
-// test isGE().
-let geCourses = GECoursesSingleton.getInstance();
-console.log(geCourses.isGE("CS 150 Lab 4"));
-console.log(geCourses.isGE("Soc Sci 2 TTh"));

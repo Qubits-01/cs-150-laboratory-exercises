@@ -158,5 +158,3 @@ parseInput(sample_input);
 let schedule_1: DayBasedSchedule = new DayBasedSchedule("TTh", "10-11:30AM");
 let section_1: Section = new Section("CS 11 CLASS 1", [schedule_1]);
 
-console.log(section_1.isGE());
-console.log(section_1);

@@ -143,5 +143,3 @@ exports.getAllWithConflict = getAllWithConflict;
 parseInput(sample_input);
 let schedule_1 = new day_based_schedule_1.default("TTh", "10-11:30AM");
 let section_1 = new Section("CS 11 CLASS 1", [schedule_1]);
-console.log(section_1.isGE());
-console.log(section_1);

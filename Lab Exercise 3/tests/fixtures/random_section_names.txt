@@ -1,0 +1,10 @@
+Math 101 LEC 1
+Eng 205 THU
+Hist 31 LAB 2
+Bio 11 LEC 3
+Chem 51 CLASS 2
+Econ 102 LAB 1
+Philo 10 THY2
+Soc Sci 21 LEC 2
+Psych 301 THU
+Art 15 LAB 3

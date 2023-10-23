@@ -124,10 +124,3 @@ export default class GECoursesSingleton {
         return deepCopy<string[][]>(this._coursesTokens);
     }
 }
-
-
-// test isGE().
-let geCourses: GECoursesSingleton = GECoursesSingleton.getInstance();
-
-console.log(geCourses.isGE("CS 150 Lab 4"));
-console.log(geCourses.isGE("Soc Sci 2 TTh"));

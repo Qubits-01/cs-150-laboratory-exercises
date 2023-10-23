@@ -1,3 +1,4 @@
+import { readFileSync } from "fs";
 import { describe, expect, test, beforeAll } from '@jest/globals';
 import GECoursesSingleton from '../../../utils/ge_courses/ge_courses';
 
@@ -92,6 +93,113 @@ describe('[ GECoursesSingleton ]', () => {
             // [ Assert. ]
             expect(actual).toBe(false);
         });
+
+        test('Should return false for CS 11.', () => {
+            // [ Arrange. ]
+            const courseName: string = "CS 11";
+
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(false);
+        });
+
+        test('Should return true for Anthro 10 S.', () => {
+            // [ Arrange. ]
+            const courseName: string = "Anthro 10";
+
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(true);
+        });
+
+        test('Should return false for CS 153 THU.', () => {
+            // [ Arrange. ]
+            const courseName: string = "CS 153 THU";
+
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(false);
+        });
+
+        test('Should return false for CS 11 CLASS 1.', () => {
+            // [ Arrange. ]
+            const courseName: string = "CS 11 CLASS 1";
+
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(false);
+        });
+
+        test('Should return false for CS 12 LAB 1.', () => {
+            // [ Arrange. ]
+            const courseName: string = "CS 12 LAB 1";
+
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(false);
+        });
+
+        test('Should return false for CS 12 LEC 2.', () => {
+            // [ Arrange. ]
+            const courseName: string = "CS 12 LEC 2";
+
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(false);
+        });
+
+        test('Should return false for CS 31 THY2.', () => {
+            // [ Arrange. ]
+            const courseName: string = "CS 31 THY2";
+
+            // [ Act. ]
+            const actual: boolean = geCourses.isGE(courseName);
+
+            // [ Assert. ]
+            expect(actual).toBe(false);
+        });
+
+        test('Should return true for all of the GE courses in ge_courses.txt.', () => {
+            // [ Act. ]
+            const actual: boolean = geCourses._proxyCoursesTokens.every(
+                courseTokens => geCourses.isGE(courseTokens.join(" "))
+            );
+
+            // [ Assert. ]
+            expect(actual).toBe(true);
+        });
+
+        // Should return false for all of the entries in random_section_names.txt.
+        test(
+            'Should return false for all of the entries in random_section_names.txt.',
+            () => {
+                // [ Arrange. ]
+                const randomSectionNames: string[] =
+                    readFileSync("tests/fixtures/random_section_names.txt", "utf8")
+                        .split("\r\n")
+                        .filter(line => line.length > 0)
+                        .map(sectionName => sectionName.trim());
+
+                // [ Act. ]
+                const actual: boolean = randomSectionNames.every(
+                    sectionName => geCourses.isGE(sectionName)
+                );
+
+                // [ Assert. ]
+                expect(actual).toBe(false);
+            }
+        );
     });
 });
-
