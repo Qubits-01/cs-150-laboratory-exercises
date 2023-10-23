@@ -32,6 +32,16 @@ class Section {
     }
     // [ GETTERS. ]
     /**
+     * Get the complete name of this Section object.
+     *
+     * For definitiveness sake, the complete name is the course name and section
+     * name combined (e.g., "CS 11 CLASS 1" - CS 11 is the course name
+     * and CLASS 1 is the section name).
+     *
+     * @returns {string} The complete name of this Section object.
+     */
+    get completeName() { return this._completeName; }
+    /**
      * Get the day based schedules of this Section object.
      * The returned array is a copy (not by reference).
      *
@@ -64,6 +74,13 @@ class Section {
             }
         }
         return false;
+    }
+    isGE() {
+        for (let ge in ge_courses_1.default.COURSES) {
+            for (let char of ge) {
+            }
+        }
+        return true;
     }
     // TODO: Will ask sir about this. The sample input string has no 
     // "slots" related data.
@@ -101,7 +118,7 @@ function parseInput(input) {
             dayBasedSchedObjs.push(new day_based_schedule_1.default(days, time));
         }
         // [ Build the Section object using the DayBasedSchedule object. ]
-        sections.push(new Section(completeName, dayBasedSchedObjs));
+        sections.push(new Section(completeName.trim(), dayBasedSchedObjs));
     });
     return sections;
 }
@@ -132,3 +149,7 @@ function getAllWithConflict(sections) {
 exports.getAllWithConflict = getAllWithConflict;
 // Whole program.
 parseInput(sample_input);
+let schedule_1 = new day_based_schedule_1.default("TTh", "10-11:30AM");
+let section_1 = new Section("CS 11 CLASS 1", [schedule_1]);
+console.log(section_1.isGE());
+console.log(section_1);

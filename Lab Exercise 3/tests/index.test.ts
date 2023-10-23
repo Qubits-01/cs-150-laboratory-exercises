@@ -26,4 +26,3 @@ describe('[ parseInput ]', () => {
         expect(true).toBe(true);
     });
 });
-
