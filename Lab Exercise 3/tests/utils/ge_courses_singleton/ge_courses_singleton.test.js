@@ -5,16 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const globals_1 = require("@jest/globals");
-const ge_courses_1 = __importDefault(require("../../../utils/ge_courses/ge_courses"));
+const ge_courses_singleton_1 = __importDefault(require("../../../utils/ge_courses_singleton/ge_courses_singleton"));
 (0, globals_1.describe)('[ GECoursesSingleton ]', () => {
     let geCourses;
     (0, globals_1.beforeAll)(() => {
-        geCourses = ge_courses_1.default.getInstance();
+        geCourses = ge_courses_singleton_1.default.getInstance();
     });
     (0, globals_1.describe)(' [ _instance ]', () => {
         (0, globals_1.test)('Should be an instance of GECoursesSingleton.', () => {
             // [ Act. ]
-            const actual = geCourses instanceof ge_courses_1.default;
+            const actual = geCourses instanceof ge_courses_singleton_1.default;
             // [ Assert. ]
             (0, globals_1.expect)(actual).toBe(true);
         });
@@ -22,15 +22,15 @@ const ge_courses_1 = __importDefault(require("../../../utils/ge_courses/ge_cours
             // [ Arrange. ]
             const expected = geCourses;
             // [ Act. ]
-            const actual = ge_courses_1.default.getInstance();
+            const actual = ge_courses_singleton_1.default.getInstance();
             // [ Assert. ]
             (0, globals_1.expect)(actual).toBe(expected);
         });
     });
     (0, globals_1.describe)('[ _filePath ]', () => {
-        (0, globals_1.test)('Should return "utils/ge_courses/ge_courses.txt".', () => {
+        (0, globals_1.test)('Should return "utils/ge_courses_singleton/ge_courses.txt".', () => {
             // [ Arrange. ]
-            const expected = "utils/ge_courses/ge_courses.txt";
+            const expected = "utils/ge_courses_singleton/ge_courses.txt";
             // [ Act. ]
             const actual = geCourses._proxyFilePath;
             // [ Assert. ]

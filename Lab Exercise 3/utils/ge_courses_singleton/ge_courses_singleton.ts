@@ -32,10 +32,10 @@ export default class GECoursesSingleton {
      * Will only be called once since this is a singleton class.
      * 
      * @param {string} _filePath The path to the ge_courses.txt file.
-     * Defaults to "utils/ge_courses/ge_courses.txt".
+     * Defaults to "utils/ge_courses_singleton/ge_courses.txt".
      */
     private constructor(
-        private readonly _filePath: string = "utils/ge_courses/ge_courses.txt"
+        private readonly _filePath: string = "utils/ge_courses_singleton/ge_courses.txt"
     ) {
         /**
          * Read the list of GE courses from the txt file,

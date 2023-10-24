@@ -1,6 +1,6 @@
 // Import the default export.
 import DayBasedSchedule from "./utils/day_based_schedule/day_based_schedule";
-import GECoursesSingleton from "./utils/ge_courses/ge_courses";
+import GECoursesSingleton from "./utils/ge_courses_singleton/ge_courses_singleton";
 
 /**
  * This class represents a Section (w/ day-based schedules).
@@ -45,7 +45,8 @@ export default class Section {
     /**
      * Check if this Section object is a GE course.
      * 
-     * @returns {boolean} True if this Section object is a GE course; false otherwise.
+     * @returns {boolean} True if this Section object is a GE course;
+     * false otherwise.
      * @see GECoursesSingleton.isGE
      */
     isGE(): boolean { return this._geCoursesSingleton.isGE(this._completeName); }

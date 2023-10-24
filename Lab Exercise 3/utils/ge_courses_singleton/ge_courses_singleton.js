@@ -18,9 +18,9 @@ class GECoursesSingleton {
      * Will only be called once since this is a singleton class.
      *
      * @param {string} _filePath The path to the ge_courses.txt file.
-     * Defaults to "utils/ge_courses/ge_courses.txt".
+     * Defaults to "utils/ge_courses_singleton/ge_courses.txt".
      */
-    constructor(_filePath = "utils/ge_courses/ge_courses.txt") {
+    constructor(_filePath = "utils/ge_courses_singleton/ge_courses.txt") {
         this._filePath = _filePath;
         /**
          * Read the list of GE courses from the txt file,

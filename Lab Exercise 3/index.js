@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllWithConflict = exports.getGEs = exports.parseInput = void 0;
 // Import the default export.
 const day_based_schedule_1 = __importDefault(require("./utils/day_based_schedule/day_based_schedule"));
-const ge_courses_1 = __importDefault(require("./utils/ge_courses/ge_courses"));
+const ge_courses_singleton_1 = __importDefault(require("./utils/ge_courses_singleton/ge_courses_singleton"));
 /**
  * This class represents a Section (w/ day-based schedules).
  *
@@ -17,7 +17,7 @@ const ge_courses_1 = __importDefault(require("./utils/ge_courses/ge_courses"));
  * are set to private and readonly.
  */
 class Section {
-    constructor(_completeName, _dayBasedSchedules, _geCoursesSingleton = ge_courses_1.default.getInstance()) {
+    constructor(_completeName, _dayBasedSchedules, _geCoursesSingleton = ge_courses_singleton_1.default.getInstance()) {
         this._completeName = _completeName;
         this._dayBasedSchedules = _dayBasedSchedules;
         this._geCoursesSingleton = _geCoursesSingleton;
@@ -46,7 +46,8 @@ class Section {
     /**
      * Check if this Section object is a GE course.
      *
-     * @returns {boolean} True if this Section object is a GE course; false otherwise.
+     * @returns {boolean} True if this Section object is a GE course;
+     * false otherwise.
      * @see GECoursesSingleton.isGE
      */
     isGE() { return this._geCoursesSingleton.isGE(this._completeName); }

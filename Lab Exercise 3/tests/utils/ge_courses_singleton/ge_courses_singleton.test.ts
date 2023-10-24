@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { describe, expect, test, beforeAll } from '@jest/globals';
-import GECoursesSingleton from '../../../utils/ge_courses/ge_courses';
+import GECoursesSingleton from '../../../utils/ge_courses_singleton/ge_courses_singleton';
 
 describe('[ GECoursesSingleton ]', () => {
     let geCourses: GECoursesSingleton;
@@ -30,9 +30,9 @@ describe('[ GECoursesSingleton ]', () => {
     });
 
     describe('[ _filePath ]', () => {
-        test('Should return "utils/ge_courses/ge_courses.txt".', () => {
+        test('Should return "utils/ge_courses_singleton/ge_courses.txt".', () => {
             // [ Arrange. ]
-            const expected: string = "utils/ge_courses/ge_courses.txt";
+            const expected: string = "utils/ge_courses_singleton/ge_courses.txt";
 
             // [ Act. ]
             const actual: string = geCourses._proxyFilePath;
