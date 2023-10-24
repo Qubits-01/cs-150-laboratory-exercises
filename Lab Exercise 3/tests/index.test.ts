@@ -1,4 +1,4 @@
-import Section, { getGEs } from '../index';
+import Section, { getAllWithConflict, getGEs } from '../index';
 import { describe, expect, test, beforeAll } from '@jest/globals';
 import { parseInput } from '../index';
 import DayBasedSchedule from '../utils/day_based_schedule/day_based_schedule';
@@ -166,6 +166,41 @@ describe('[ Section ]', () => {
             // [ Assert. ]
             expect(section.hasSlots()).toBe(true);
         });
+    });
+
+    describe('[ copyWith ]', () => {
+        test('Should return a copy of the Section object (not by reference).', () => {
+            // [ Arrange. ]
+            let sched = new DayBasedSchedule("MWF", "10AM-12PM");
+            let section = new Section("CS 11 CLASS 1", [sched]);
+
+            // [ Act. ]
+            let actual = section.copyWith();
+
+            // [ Assert. ]
+            expect(actual).not.toBe(section);
+            expect(actual._proxyCompleteName).toBe(section._proxyCompleteName);
+            expect(actual._proxyDayBasedSchedules).toStrictEqual(
+                section._proxyDayBasedSchedules
+            );
+        });
+
+        test('Should return a copy of the Section object w/ the given complete name.', () => {
+            // [ Arrange. ]
+            let sched = new DayBasedSchedule("MWF", "10AM-12PM");
+            let section = new Section("CS 11 CLASS 1", [sched]);
+
+            // [ Act. ]
+            let actual = section.copyWith("CS 11 CLASS 2");
+
+            // [ Assert. ]
+            expect(actual).not.toBe(section);
+            expect(actual._proxyCompleteName).toBe("CS 11 CLASS 2");
+            expect(actual._proxyDayBasedSchedules).toStrictEqual(
+                section._proxyDayBasedSchedules
+            );
+        }
+        );
     });
 
     describe('[ _completeName ]', () => {
@@ -437,6 +472,87 @@ describe('[ getGEs ]', () => {
             expect(actual[2]._proxyCompleteName).toBe("CS 12 LAB 1");
             expect(actual[3]._proxyCompleteName).toBe("CS 12 LEC 2");
             expect(actual[4]._proxyCompleteName).toBe("CS 31 THY2");
+        }
+    );
+});
+
+describe('[ getAllWithConflict ]', () => {
+    let sampleInput: string;
+    let sections: Section[];
+
+    beforeAll(() => {
+        sampleInput = `CS 153 THU,TTh 10-11:30AM lec ERDT Room
+            CS 11 CLASS 1,W 10AM-12PM lab TBA; F 10AM-1PM lec TBA
+            CS 12 LAB 1,F 1-4PM lab TL3
+            CS 12 LEC 2,TTh 1-2PM lec P&G
+            CS 31 THY2,TTh 4-5:30PM lec CLR3`;
+
+        sections = parseInput(sampleInput);
+    });
+
+    test(
+        'Should return an empty array since there are no conflicts ' +
+        '(w/ respect to sampleInput).',
+        () => {
+            // [ Act. ]
+            const actual = getAllWithConflict(sections);
+
+            // [ Assert. ]
+            expect(actual.length).toBe(0);
+        }
+    );
+
+    test(
+        'Should return the correct sections ' +
+        '(w/ respect to sampleInput).',
+        () => {
+            // [ Arrange. ]
+            sections.push(new Section(
+                "Soc Sci 2 CL1",
+                [new DayBasedSchedule("MThS", "8AM-5PM"),]
+            ));
+
+            // [ Act. ]
+            const actual = getAllWithConflict(sections);
+
+            // [ Assert. ]
+            expect(actual.length).toBe(4);
+        }
+    );
+
+    test(
+        'Should return a copy of the Section objects (not by reference)' +
+        '(w/ respect to the modified sampleInput).',
+        () => {
+            // [ Act. ]
+            const actual = getAllWithConflict(sections);
+
+            // [ Assert. ]
+            expect(actual[0]).not.toBe(sections[0]);
+            expect(actual).not.toBe(sections);
+        }
+    );
+
+    test(
+        'Should return the correct sections ' +
+        '(w/ respect to the modified sampleInput).',
+        () => {
+            // [ Arrange. ]
+            // remove the last elem
+            sections.pop();
+            sections.push(new Section(
+                "Soc Sci 2 CL1",
+                [
+                    new DayBasedSchedule("MThS", "8AM-5PM"),
+                    new DayBasedSchedule("F", "2-3:45PM")
+                ]
+            ));
+
+            // [ Act. ]
+            const actual = getAllWithConflict(sections);
+
+            // [ Assert. ]
+            expect(actual.length).toBe(5);
         }
     );
 });

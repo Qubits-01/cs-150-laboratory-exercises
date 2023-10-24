@@ -776,7 +776,6 @@ describe('[ DayBasedSchedule ]', () => {
 
             // [ Act. ]
             const ACTUAL: Time = mock._proxyBuildTimeObj(time, () => "AM");
-            console.log(ACTUAL);
 
             // [ Assert. ]
             expect(ACTUAL).toEqual(EXPECTED);

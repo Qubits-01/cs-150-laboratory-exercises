@@ -139,6 +139,30 @@ const day_based_schedule_1 = __importDefault(require("../utils/day_based_schedul
             (0, globals_1.expect)(section.hasSlots()).toBe(true);
         });
     });
+    (0, globals_1.describe)('[ copyWith ]', () => {
+        (0, globals_1.test)('Should return a copy of the Section object (not by reference).', () => {
+            // [ Arrange. ]
+            let sched = new day_based_schedule_1.default("MWF", "10AM-12PM");
+            let section = new index_1.default("CS 11 CLASS 1", [sched]);
+            // [ Act. ]
+            let actual = section.copyWith();
+            // [ Assert. ]
+            (0, globals_1.expect)(actual).not.toBe(section);
+            (0, globals_1.expect)(actual._proxyCompleteName).toBe(section._proxyCompleteName);
+            (0, globals_1.expect)(actual._proxyDayBasedSchedules).toStrictEqual(section._proxyDayBasedSchedules);
+        });
+        (0, globals_1.test)('Should return a copy of the Section object w/ the given complete name.', () => {
+            // [ Arrange. ]
+            let sched = new day_based_schedule_1.default("MWF", "10AM-12PM");
+            let section = new index_1.default("CS 11 CLASS 1", [sched]);
+            // [ Act. ]
+            let actual = section.copyWith("CS 11 CLASS 2");
+            // [ Assert. ]
+            (0, globals_1.expect)(actual).not.toBe(section);
+            (0, globals_1.expect)(actual._proxyCompleteName).toBe("CS 11 CLASS 2");
+            (0, globals_1.expect)(actual._proxyDayBasedSchedules).toStrictEqual(section._proxyDayBasedSchedules);
+        });
+    });
     (0, globals_1.describe)('[ _completeName ]', () => {
         (0, globals_1.test)('Should return the correct complete name.', () => {
             // [ Arrange. ]
@@ -319,5 +343,55 @@ const day_based_schedule_1 = __importDefault(require("../utils/day_based_schedul
         (0, globals_1.expect)(actual[2]._proxyCompleteName).toBe("CS 12 LAB 1");
         (0, globals_1.expect)(actual[3]._proxyCompleteName).toBe("CS 12 LEC 2");
         (0, globals_1.expect)(actual[4]._proxyCompleteName).toBe("CS 31 THY2");
+    });
+});
+(0, globals_1.describe)('[ getAllWithConflict ]', () => {
+    let sampleInput;
+    let sections;
+    (0, globals_1.beforeAll)(() => {
+        sampleInput = `CS 153 THU,TTh 10-11:30AM lec ERDT Room
+            CS 11 CLASS 1,W 10AM-12PM lab TBA; F 10AM-1PM lec TBA
+            CS 12 LAB 1,F 1-4PM lab TL3
+            CS 12 LEC 2,TTh 1-2PM lec P&G
+            CS 31 THY2,TTh 4-5:30PM lec CLR3`;
+        sections = (0, index_2.parseInput)(sampleInput);
+    });
+    (0, globals_1.test)('Should return an empty array since there are no conflicts ' +
+        '(w/ respect to sampleInput).', () => {
+        // [ Act. ]
+        const actual = (0, index_1.getAllWithConflict)(sections);
+        // [ Assert. ]
+        (0, globals_1.expect)(actual.length).toBe(0);
+    });
+    (0, globals_1.test)('Should return the correct sections ' +
+        '(w/ respect to sampleInput).', () => {
+        // [ Arrange. ]
+        sections.push(new index_1.default("Soc Sci 2 CL1", [new day_based_schedule_1.default("MThS", "8AM-5PM"),]));
+        // [ Act. ]
+        const actual = (0, index_1.getAllWithConflict)(sections);
+        // [ Assert. ]
+        (0, globals_1.expect)(actual.length).toBe(4);
+    });
+    (0, globals_1.test)('Should return a copy of the Section objects (not by reference)' +
+        '(w/ respect to the modified sampleInput).', () => {
+        // [ Act. ]
+        const actual = (0, index_1.getAllWithConflict)(sections);
+        // [ Assert. ]
+        (0, globals_1.expect)(actual[0]).not.toBe(sections[0]);
+        (0, globals_1.expect)(actual).not.toBe(sections);
+    });
+    (0, globals_1.test)('Should return the correct sections ' +
+        '(w/ respect to the modified sampleInput).', () => {
+        // [ Arrange. ]
+        // remove the last elem
+        sections.pop();
+        sections.push(new index_1.default("Soc Sci 2 CL1", [
+            new day_based_schedule_1.default("MThS", "8AM-5PM"),
+            new day_based_schedule_1.default("F", "2-3:45PM")
+        ]));
+        // [ Act. ]
+        const actual = (0, index_1.getAllWithConflict)(sections);
+        // [ Assert. ]
+        (0, globals_1.expect)(actual.length).toBe(5);
     });
 });

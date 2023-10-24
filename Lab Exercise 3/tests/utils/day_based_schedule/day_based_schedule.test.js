@@ -586,7 +586,6 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
             const EXPECTED = mock._proxyStartTime;
             // [ Act. ]
             const ACTUAL = mock._proxyBuildTimeObj(time, () => "AM");
-            console.log(ACTUAL);
             // [ Assert. ]
             (0, globals_1.expect)(ACTUAL).toEqual(EXPECTED);
         });

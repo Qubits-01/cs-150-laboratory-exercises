@@ -190,16 +190,35 @@ export function getGEs(sections: Section[]): Section[] {
  */
 export function getAllWithConflict(sections: Section[]): Section[] {
     let sectionsWithConflict: Section[] = [];
-
     for (let i = 0; i < sections.length; i++) {
         for (let j = i + 1; j < sections.length; j++) {
             if (sections[i].hasConflict(sections[j])) {
-                sectionsWithConflict.push(sections[i]);
-                sectionsWithConflict.push(sections[j]);
+                _toPushOrNotToPush(sections[i], sectionsWithConflict);
+                _toPushOrNotToPush(sections[j], sectionsWithConflict);
             }
         }
     }
 
-    // Remove duplicates.
-    return [...new Set(sectionsWithConflict)];
+    // Deep copy the sectionsWithConflict array.
+    let copy: Section[] = [];
+    sectionsWithConflict.forEach(section => copy.push(section.copyWith()));
+
+    return copy;
+}
+
+
+/**
+ * *To push or not to push, that is the question ;D
+ * 
+ * This function checks if the given section is already in the given array.
+ * If not, it will push the section to the array.
+ * 
+ * @param {Section} section The section to check.
+ * @param {Section[]} sections The array of Section objects.
+ * @returns {void} Nothing.
+ */
+function _toPushOrNotToPush(section: Section, sections: Section[]) {
+    if (!sections.includes(section)) {
+        sections.push(section);
+    }
 }
