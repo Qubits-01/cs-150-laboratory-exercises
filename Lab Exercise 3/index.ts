@@ -1,15 +1,6 @@
 // Import the default export.
-import GECourses from "./utils/ge_courses/ge_courses";
 import DayBasedSchedule from "./utils/day_based_schedule/day_based_schedule";
-
-// TODO: Improve documentation (via docstrings).
-// TODO: Add unit tests and integration tests using Jest.
-
-const sample_input = `CS 153 THU,TTh 10-11:30AM lec ERDT Room
-CS 11 CLASS 1,W 10AM-12PM lab TBA; F 10AM-1PM lec TBA
-CS 12 LAB 1,F 1-4PM lab TL3
-CS 12 LEC 2,TTh 1-2PM lec P&G
-CS 31 THY2,TTh 4-5:30PM lec CLR3`;
+import GECoursesSingleton from "./utils/ge_courses/ge_courses";
 
 /**
  * This class represents a Section (w/ day-based schedules).
@@ -20,10 +11,12 @@ CS 31 THY2,TTh 4-5:30PM lec CLR3`;
  * you have to create a new one. This is also why the properties
  * are set to private and readonly.
  */
-class Section {
+export default class Section {
     constructor(
         private readonly _completeName: string,
         private readonly _dayBasedSchedules: DayBasedSchedule[],
+        private readonly _geCoursesSingleton: GECoursesSingleton =
+            GECoursesSingleton.getInstance()
     ) { }
 
     // [ GETTERS. ]
@@ -75,9 +68,13 @@ class Section {
         return false;
     }
 
-    isGE(): boolean {
-        return true;
-    }
+    /**
+     * Check if this Section object is a GE course.
+     * 
+     * @returns {boolean} True if this Section object is a GE course; false otherwise.
+     * @see GECoursesSingleton.isGE
+     */
+    isGE(): boolean { return this._geCoursesSingleton.isGE(this.completeName); }
 
     // TODO: Will ask sir about this. The sample input string has no 
     // "slots" related data.
@@ -101,6 +98,8 @@ class Section {
  * @returns {Section[]} An array of Section objects.
  */
 export function parseInput(input: string): Section[] {
+    if (input === "") { return []; }
+
     let sections: Section[] = [];
     input.split("\n").forEach(line => {
         // Clean the line.
@@ -151,10 +150,3 @@ export function getGEs(sections: Section[]): Section[] {
 export function getAllWithConflict(sections: Section[]): Section[] {
     return [];
 }
-
-// Whole program.
-parseInput(sample_input);
-
-let schedule_1: DayBasedSchedule = new DayBasedSchedule("TTh", "10-11:30AM");
-let section_1: Section = new Section("CS 11 CLASS 1", [schedule_1]);
-

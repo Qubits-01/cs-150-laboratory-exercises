@@ -4,14 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllWithConflict = exports.getGEs = exports.parseInput = void 0;
+// Import the default export.
 const day_based_schedule_1 = __importDefault(require("./utils/day_based_schedule/day_based_schedule"));
-// TODO: Improve documentation (via docstrings).
-// TODO: Add unit tests and integration tests using Jest.
-const sample_input = `CS 153 THU,TTh 10-11:30AM lec ERDT Room
-CS 11 CLASS 1,W 10AM-12PM lab TBA; F 10AM-1PM lec TBA
-CS 12 LAB 1,F 1-4PM lab TL3
-CS 12 LEC 2,TTh 1-2PM lec P&G
-CS 31 THY2,TTh 4-5:30PM lec CLR3`;
+const ge_courses_1 = __importDefault(require("./utils/ge_courses/ge_courses"));
 /**
  * This class represents a Section (w/ day-based schedules).
  *
@@ -22,9 +17,10 @@ CS 31 THY2,TTh 4-5:30PM lec CLR3`;
  * are set to private and readonly.
  */
 class Section {
-    constructor(_completeName, _dayBasedSchedules) {
+    constructor(_completeName, _dayBasedSchedules, _geCoursesSingleton = ge_courses_1.default.getInstance()) {
         this._completeName = _completeName;
         this._dayBasedSchedules = _dayBasedSchedules;
+        this._geCoursesSingleton = _geCoursesSingleton;
     }
     // [ GETTERS. ]
     /**
@@ -71,9 +67,13 @@ class Section {
         }
         return false;
     }
-    isGE() {
-        return true;
-    }
+    /**
+     * Check if this Section object is a GE course.
+     *
+     * @returns {boolean} True if this Section object is a GE course; false otherwise.
+     * @see GECoursesSingleton.isGE
+     */
+    isGE() { return this._geCoursesSingleton.isGE(this.completeName); }
     // TODO: Will ask sir about this. The sample input string has no 
     // "slots" related data.
     /**
@@ -85,6 +85,7 @@ class Section {
         return true;
     }
 }
+exports.default = Section;
 /**
  * This function parses the input string and returns an array of Section objects.
  *
@@ -95,6 +96,9 @@ class Section {
  * @returns {Section[]} An array of Section objects.
  */
 function parseInput(input) {
+    if (input === "") {
+        return [];
+    }
     let sections = [];
     input.split("\n").forEach(line => {
         // Clean the line.
@@ -139,7 +143,3 @@ function getAllWithConflict(sections) {
     return [];
 }
 exports.getAllWithConflict = getAllWithConflict;
-// Whole program.
-parseInput(sample_input);
-let schedule_1 = new day_based_schedule_1.default("TTh", "10-11:30AM");
-let section_1 = new Section("CS 11 CLASS 1", [schedule_1]);
