@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const deep_copy_1 = __importDefault(require("../deep_copy"));
 /**
  * A class that represents a day-based schedule.
  *
@@ -29,21 +33,21 @@ class DayBasedSchedule {
      *
      * @returns {Day[]} An array of Day objects.
      */
-    get days() { return [...this._days]; }
+    // get days(): Day[] { return [...this._days]; }
     /**
      * Get the start time of this DayBasedSchedule object.
      * The returned Time object is a copy (not by reference-like).
      *
      * @returns {Time} The start Time object.
      */
-    get startTime() { return Object.assign({}, this._startTime); }
+    // get startTime(): Time { return { ...this._startTime }; }
     /**
      * Get the end time of this DayBasedSchedule object.
      * The returned Time object is a copy (not by reference-like).
      *
      * @returns {Time} The end Time object.
      */
-    get endTime() { return Object.assign({}, this._endTime); }
+    // get endTime(): Time { return { ...this._endTime }; }
     // [ UTILITY METHODS. ]
     /**
      * Check if this DayBasedSchedule object has a conflict with the given
@@ -53,8 +57,8 @@ class DayBasedSchedule {
      * @returns {boolean} True if there is a conflict, false otherwise.
      */
     hasConflict(other) {
-        for (let day of this.days) {
-            if (other.days.includes(day)) {
+        for (let day of this._days) {
+            if (other._days.includes(day)) {
                 let [thisStartTime, thisEndTime] = this._convertStartEndToMinutes(this);
                 let [otherStartTime, otherEndTime] = this._convertStartEndToMinutes(other);
                 if (thisStartTime < otherEndTime && thisEndTime > otherStartTime) {
@@ -63,6 +67,17 @@ class DayBasedSchedule {
             }
         }
         return false;
+    }
+    /**
+     * Create a copy of this DayBasedSchedule object with the given
+     * rawDays and rawTime (optional).
+     *
+     * @param {string} rawDays The raw days input string.
+     * @param {string} rawTime The raw time input string.
+     * @returns {DayBasedSchedule} The copied DayBasedSchedule object.
+     */
+    copyWith(rawDays, rawTime) {
+        return new DayBasedSchedule(rawDays !== null && rawDays !== void 0 ? rawDays : this._rawDays, rawTime !== null && rawTime !== void 0 ? rawTime : this._rawTime);
     }
     /**
      * Intelligently split the days string into an array of Day.
@@ -93,7 +108,9 @@ class DayBasedSchedule {
     /**
      * Extract the AM or PM from the given time string.
      *
-     * Accepted time string format samples: "8:00AM", "08:30AM", "10PM",
+     * @example
+     * //* Accepted time string format samples:
+     * "8:00AM", "08:30AM", "10PM",
      * "9", "3:30"
      *
      * @param {string} time The raw time input string.
@@ -107,7 +124,9 @@ class DayBasedSchedule {
     /**
      * Extract the hour and minute from the given time string.
      *
-     * Accepted time string format samples: "8:00AM", "08:30AM", "10PM",
+     * @example
+     * //* Accepted time string format samples:
+     * "8:00AM", "08:30AM", "10PM",
      * "9", "3:30"
      *
      * @param {string} time The raw time input string.
@@ -122,7 +141,9 @@ class DayBasedSchedule {
      * Build a Time object from the given time string and
      * the given callback function that returns AmOrPm.
      *
-     * Accepted time string format samples: "8:00AM", "08:30AM", "10PM",
+     * @example
+     * //* Accepted time string format samples:
+     * "8:00AM", "08:30AM", "10PM",
      * "9", "3:30"
      *
      * @param {string} time The raw time input string.
@@ -162,14 +183,17 @@ class DayBasedSchedule {
      */
     _convertStartEndToMinutes(sched) {
         return [
-            this._getMinutesSinceMidnight(sched.startTime),
-            this._getMinutesSinceMidnight(sched.endTime)
+            this._getMinutesSinceMidnight(sched._startTime),
+            this._getMinutesSinceMidnight(sched._endTime)
         ];
     }
-    // [ FOR TESTING - Proxy Methods ]
+    // [ PROXY METHODS, GETTERS, and OTHERS. ]
     // These methods are only for testing purposes.
     // They are used to test private methods.
     // They should not be used outside of testing.
+    get _proxyDays() { return (0, deep_copy_1.default)(this._days); }
+    get _proxyStartTime() { return (0, deep_copy_1.default)(this._startTime); }
+    get _proxyEndTime() { return (0, deep_copy_1.default)(this._endTime); }
     /**
      * Proxy method for extractDays.
      * For testing purposes only.

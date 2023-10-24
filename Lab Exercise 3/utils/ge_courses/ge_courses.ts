@@ -18,7 +18,8 @@ export default class GECoursesSingleton {
 
     /**
      * The list of GE courses tokens.
-     * For example: 
+     * 
+     * @example
      * [["cs", "11"], ["cs", "12"], ["soc", "sci", "2"], ...].
      * 
      * @returns {string[][]} The list of GE courses tokens.

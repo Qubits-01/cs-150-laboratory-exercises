@@ -22,7 +22,7 @@ describe('[ DayBasedSchedule ]', () => {
 
         test('Should return an array of correct Day objects.', () => {
             // [ Arrange.]
-            const EXPECTED: Day[] = mock.days;
+            const EXPECTED: Day[] = mock._proxyDays;
 
             // [ Act. ]
             const ACTUAL: Day[] = mock._proxyExtractDays(days);
@@ -33,10 +33,10 @@ describe('[ DayBasedSchedule ]', () => {
 
         test('Returned array should not be modifiable outside of this class.', () => {
             // [ Arrange. ]
-            const EXPECTED: Day[] = mock.days;
+            const EXPECTED: Day[] = mock._proxyDays;
 
             // [ Act. ]
-            const MODIFIED_DAYS: Day[] = mock.days;
+            const MODIFIED_DAYS: Day[] = mock._proxyDays;
             MODIFIED_DAYS.push("M");
 
             // [ Assert. ]
@@ -56,7 +56,7 @@ describe('[ DayBasedSchedule ]', () => {
 
         test('Should return a correct Time object.', () => {
             // [ Arrange. ]
-            const EXPECTED: Time = mock.startTime;
+            const EXPECTED: Time = mock._proxyStartTime;
 
             // [ Act. ]
             const ACTUAL: Time = mock._proxyBuildTimeObj(time, () => "AM");
@@ -70,10 +70,10 @@ describe('[ DayBasedSchedule ]', () => {
             'Returned Time object should not be modifiable outside of this class.',
             () => {
                 // [ Arrange. ]
-                const EXPECTED: Time = mock.startTime;
+                const EXPECTED: Time = mock._proxyStartTime;
 
                 // [ Act. ]
-                const MODIFIED_TIME: Time = mock.startTime;
+                const MODIFIED_TIME: Time = mock._proxyStartTime;
                 MODIFIED_TIME.hour = 69;
                 MODIFIED_TIME.minute = 42;
 
@@ -95,7 +95,7 @@ describe('[ DayBasedSchedule ]', () => {
 
         test('Should return a correct Time object.', () => {
             // [ Arrange. ]
-            const EXPECTED: Time = mock.endTime;
+            const EXPECTED: Time = mock._proxyEndTime;
 
             // [ Act. ]
             const ACTUAL: Time = mock._proxyBuildTimeObj(time, () => "AM");
@@ -108,10 +108,10 @@ describe('[ DayBasedSchedule ]', () => {
             'Returned Time object should not be modifiable outside of this class.',
             () => {
                 // [ Arrange. ]
-                const EXPECTED: Time = mock.endTime;
+                const EXPECTED: Time = mock._proxyEndTime;
 
                 // [ Act. ]
-                const MODIFIED_TIME: Time = mock.endTime;
+                const MODIFIED_TIME: Time = mock._proxyEndTime;
                 MODIFIED_TIME.hour = 69;
                 MODIFIED_TIME.minute = 42;
 

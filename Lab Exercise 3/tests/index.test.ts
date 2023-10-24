@@ -4,7 +4,11 @@ import { parseInput } from '../index';
 import DayBasedSchedule from '../utils/day_based_schedule/day_based_schedule';
 
 describe('[ Section ]', () => {
+    describe('[ dayBasedSchedules ]', () => {
 
+
+
+    });
 });
 
 describe('[ parseInput ]', () => {
@@ -32,7 +36,7 @@ describe('[ parseInput ]', () => {
             const actual = parseInput(sampleInput);
 
             // [ Assert. ]
-            expect(actual[1].dayBasedSchedules.length).toBe(2);
+            expect(actual[1]._proxyDayBasedSchedules.length).toBe(2);
         }
     );
 
@@ -44,7 +48,7 @@ describe('[ parseInput ]', () => {
             const actual = parseInput(sampleInput);
 
             // [ Assert. ]
-            expect(actual[0].dayBasedSchedules.length).toBe(1);
+            expect(actual[0]._proxyDayBasedSchedules.length).toBe(1);
         }
     );
 
@@ -56,11 +60,11 @@ describe('[ parseInput ]', () => {
             const actual = parseInput(sampleInput);
 
             // [ Assert. ]
-            expect(actual[0].completeName).toBe("CS 153 THU");
-            expect(actual[1].completeName).toBe("CS 11 CLASS 1");
-            expect(actual[2].completeName).toBe("CS 12 LAB 1");
-            expect(actual[3].completeName).toBe("CS 12 LEC 2");
-            expect(actual[4].completeName).toBe("CS 31 THY2");
+            expect(actual[0]._proxyCompleteName).toBe("CS 153 THU");
+            expect(actual[1]._proxyCompleteName).toBe("CS 11 CLASS 1");
+            expect(actual[2]._proxyCompleteName).toBe("CS 12 LAB 1");
+            expect(actual[3]._proxyCompleteName).toBe("CS 12 LEC 2");
+            expect(actual[4]._proxyCompleteName).toBe("CS 31 THY2");
         }
     );
 
@@ -73,12 +77,12 @@ describe('[ parseInput ]', () => {
             const actual = parseInput(sampleInput);
 
             // [ Assert. ]
-            expect(actual[0].dayBasedSchedules[0].days).toStrictEqual(["T", "Th"]);
-            expect(actual[1].dayBasedSchedules[0].days).toStrictEqual(["W"]);
-            expect(actual[1].dayBasedSchedules[1].days).toStrictEqual(["F"]);
-            expect(actual[2].dayBasedSchedules[0].days).toStrictEqual(["F"]);
-            expect(actual[3].dayBasedSchedules[0].days).toStrictEqual(["T", "Th"]);
-            expect(actual[4].dayBasedSchedules[0].days).toStrictEqual(["T", "Th"]);
+            expect(actual[0]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["T", "Th"]);
+            expect(actual[1]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["W"]);
+            expect(actual[1]._proxyDayBasedSchedules[1]._proxyDays).toStrictEqual(["F"]);
+            expect(actual[2]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["F"]);
+            expect(actual[3]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["T", "Th"]);
+            expect(actual[4]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["T", "Th"]);
         }
     );
 
@@ -114,7 +118,7 @@ describe('[ parseInput ]', () => {
             // [ Assert. ]
             expect(
                 actual.every(
-                    section => section.dayBasedSchedules.every(isTypeDayBasedSchedule)
+                    section => section._proxyDayBasedSchedules.every(isTypeDayBasedSchedule)
                 )
             ).toBe(true);
         }

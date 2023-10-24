@@ -8,6 +8,8 @@ const globals_1 = require("@jest/globals");
 const index_2 = require("../index");
 const day_based_schedule_1 = __importDefault(require("../utils/day_based_schedule/day_based_schedule"));
 (0, globals_1.describe)('[ Section ]', () => {
+    (0, globals_1.describe)('[ dayBasedSchedules ]', () => {
+    });
 });
 (0, globals_1.describe)('[ parseInput ]', () => {
     let sampleInput;
@@ -28,25 +30,25 @@ const day_based_schedule_1 = __importDefault(require("../utils/day_based_schedul
         // [ Act. ]
         const actual = (0, index_2.parseInput)(sampleInput);
         // [ Assert. ]
-        (0, globals_1.expect)(actual[1].dayBasedSchedules.length).toBe(2);
+        (0, globals_1.expect)(actual[1]._proxyDayBasedSchedules.length).toBe(2);
     });
     (0, globals_1.test)('Should return 1 section with 1 day-based schedule ' +
         '(w/ respect to sampleInput 1).', () => {
         // [ Act. ]
         const actual = (0, index_2.parseInput)(sampleInput);
         // [ Assert. ]
-        (0, globals_1.expect)(actual[0].dayBasedSchedules.length).toBe(1);
+        (0, globals_1.expect)(actual[0]._proxyDayBasedSchedules.length).toBe(1);
     });
     (0, globals_1.test)('Should return the Section objects in the same order as the input ' +
         '(w/ respect to sampleInput 1).', () => {
         // [ Act. ]
         const actual = (0, index_2.parseInput)(sampleInput);
         // [ Assert. ]
-        (0, globals_1.expect)(actual[0].completeName).toBe("CS 153 THU");
-        (0, globals_1.expect)(actual[1].completeName).toBe("CS 11 CLASS 1");
-        (0, globals_1.expect)(actual[2].completeName).toBe("CS 12 LAB 1");
-        (0, globals_1.expect)(actual[3].completeName).toBe("CS 12 LEC 2");
-        (0, globals_1.expect)(actual[4].completeName).toBe("CS 31 THY2");
+        (0, globals_1.expect)(actual[0]._proxyCompleteName).toBe("CS 153 THU");
+        (0, globals_1.expect)(actual[1]._proxyCompleteName).toBe("CS 11 CLASS 1");
+        (0, globals_1.expect)(actual[2]._proxyCompleteName).toBe("CS 12 LAB 1");
+        (0, globals_1.expect)(actual[3]._proxyCompleteName).toBe("CS 12 LEC 2");
+        (0, globals_1.expect)(actual[4]._proxyCompleteName).toBe("CS 31 THY2");
     });
     // Should return with the correct day-based schedules.
     (0, globals_1.test)('Should return the Section objects with the correct day-based schedules ' +
@@ -54,12 +56,12 @@ const day_based_schedule_1 = __importDefault(require("../utils/day_based_schedul
         // [ Act. ]
         const actual = (0, index_2.parseInput)(sampleInput);
         // [ Assert. ]
-        (0, globals_1.expect)(actual[0].dayBasedSchedules[0].days).toStrictEqual(["T", "Th"]);
-        (0, globals_1.expect)(actual[1].dayBasedSchedules[0].days).toStrictEqual(["W"]);
-        (0, globals_1.expect)(actual[1].dayBasedSchedules[1].days).toStrictEqual(["F"]);
-        (0, globals_1.expect)(actual[2].dayBasedSchedules[0].days).toStrictEqual(["F"]);
-        (0, globals_1.expect)(actual[3].dayBasedSchedules[0].days).toStrictEqual(["T", "Th"]);
-        (0, globals_1.expect)(actual[4].dayBasedSchedules[0].days).toStrictEqual(["T", "Th"]);
+        (0, globals_1.expect)(actual[0]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["T", "Th"]);
+        (0, globals_1.expect)(actual[1]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["W"]);
+        (0, globals_1.expect)(actual[1]._proxyDayBasedSchedules[1]._proxyDays).toStrictEqual(["F"]);
+        (0, globals_1.expect)(actual[2]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["F"]);
+        (0, globals_1.expect)(actual[3]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["T", "Th"]);
+        (0, globals_1.expect)(actual[4]._proxyDayBasedSchedules[0]._proxyDays).toStrictEqual(["T", "Th"]);
     });
     (0, globals_1.test)('Should not return an empty array when the input is an empty string.', () => {
         // [ Arrange. ]
@@ -81,6 +83,6 @@ const day_based_schedule_1 = __importDefault(require("../utils/day_based_schedul
         const actual = (0, index_2.parseInput)(sampleInput);
         let isTypeDayBasedSchedule = (dayBasedSchedule) => dayBasedSchedule instanceof day_based_schedule_1.default;
         // [ Assert. ]
-        (0, globals_1.expect)(actual.every(section => section.dayBasedSchedules.every(isTypeDayBasedSchedule))).toBe(true);
+        (0, globals_1.expect)(actual.every(section => section._proxyDayBasedSchedules.every(isTypeDayBasedSchedule))).toBe(true);
     });
 });

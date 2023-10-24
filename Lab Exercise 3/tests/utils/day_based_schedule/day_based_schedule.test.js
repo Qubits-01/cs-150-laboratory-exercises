@@ -21,7 +21,7 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         });
         (0, globals_1.test)('Should return an array of correct Day objects.', () => {
             // [ Arrange.]
-            const EXPECTED = mock.days;
+            const EXPECTED = mock._proxyDays;
             // [ Act. ]
             const ACTUAL = mock._proxyExtractDays(days);
             // [ Assert. ]
@@ -29,9 +29,9 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         });
         (0, globals_1.test)('Returned array should not be modifiable outside of this class.', () => {
             // [ Arrange. ]
-            const EXPECTED = mock.days;
+            const EXPECTED = mock._proxyDays;
             // [ Act. ]
-            const MODIFIED_DAYS = mock.days;
+            const MODIFIED_DAYS = mock._proxyDays;
             MODIFIED_DAYS.push("M");
             // [ Assert. ]
             (0, globals_1.expect)(MODIFIED_DAYS).not.toEqual(EXPECTED);
@@ -47,7 +47,7 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         });
         (0, globals_1.test)('Should return a correct Time object.', () => {
             // [ Arrange. ]
-            const EXPECTED = mock.startTime;
+            const EXPECTED = mock._proxyStartTime;
             // [ Act. ]
             const ACTUAL = mock._proxyBuildTimeObj(time, () => "AM");
             console.log(ACTUAL);
@@ -56,9 +56,9 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         });
         (0, globals_1.test)('Returned Time object should not be modifiable outside of this class.', () => {
             // [ Arrange. ]
-            const EXPECTED = mock.startTime;
+            const EXPECTED = mock._proxyStartTime;
             // [ Act. ]
-            const MODIFIED_TIME = mock.startTime;
+            const MODIFIED_TIME = mock._proxyStartTime;
             MODIFIED_TIME.hour = 69;
             MODIFIED_TIME.minute = 42;
             // [ Assert. ] 
@@ -75,7 +75,7 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         });
         (0, globals_1.test)('Should return a correct Time object.', () => {
             // [ Arrange. ]
-            const EXPECTED = mock.endTime;
+            const EXPECTED = mock._proxyEndTime;
             // [ Act. ]
             const ACTUAL = mock._proxyBuildTimeObj(time, () => "AM");
             // [ Assert. ]
@@ -83,9 +83,9 @@ const day_based_schedule_1 = __importDefault(require("../../../utils/day_based_s
         });
         (0, globals_1.test)('Returned Time object should not be modifiable outside of this class.', () => {
             // [ Arrange. ]
-            const EXPECTED = mock.endTime;
+            const EXPECTED = mock._proxyEndTime;
             // [ Act. ]
-            const MODIFIED_TIME = mock.endTime;
+            const MODIFIED_TIME = mock._proxyEndTime;
             MODIFIED_TIME.hour = 69;
             MODIFIED_TIME.minute = 42;
             // [ Assert. ] 

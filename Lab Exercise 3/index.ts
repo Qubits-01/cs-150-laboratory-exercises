@@ -21,29 +21,20 @@ export default class Section {
 
     // [ GETTERS. ]
     /**
-     * Get the complete name of this Section object.
-     * 
-     * For definitiveness sake, the complete name is the course name and section
-     * name combined (e.g., "CS 11 CLASS 1" - CS 11 is the course name
-     * and CLASS 1 is the section name).
-     * 
-     * @returns {string} The complete name of this Section object.
-     */
-    get completeName(): string { return this._completeName; }
-
-    /**
      * Get the day based schedules of this Section object.
      * The returned array is a copy (not by reference).
      * 
      * @returns {DayBasedSchedule[]} An array of DayBasedSchedule objects.
      */
-    get dayBasedSchedules(): DayBasedSchedule[] {
-        // Return a copy of the dayBasedSchedules array (not by reference).
-        // Note that the DayBasedSchedule objects are still by reference.
-        // This is still safe since the DayBasedSchedule objects are immutable
-        // by design.
-        return [...this._dayBasedSchedules];
-    }
+    // get dayBasedSchedules(): DayBasedSchedule[] {
+    //     // Return a copy of the dayBasedSchedules array (not by reference).
+    //     let schedsCopy: DayBasedSchedule[] = [];
+    //     for (let sched of this._dayBasedSchedules) {
+    //         schedsCopy.push(sched.copyWith());
+    //     }
+
+    //     return schedsCopy;
+    // }
 
     // [ UTILITY METHODS. ]
     /**
@@ -57,8 +48,8 @@ export default class Section {
     hasConflict(other: Section): boolean {
         // Check if the other section has the same day-based schedule
         // as this section.
-        for (let thisSched of this.dayBasedSchedules) {
-            for (let otherSched of other.dayBasedSchedules) {
+        for (let thisSched of this._dayBasedSchedules) {
+            for (let otherSched of other._dayBasedSchedules) {
                 if (thisSched.hasConflict(otherSched)) {
                     return true;
                 }
@@ -74,7 +65,7 @@ export default class Section {
      * @returns {boolean} True if this Section object is a GE course; false otherwise.
      * @see GECoursesSingleton.isGE
      */
-    isGE(): boolean { return this._geCoursesSingleton.isGE(this.completeName); }
+    isGE(): boolean { return this._geCoursesSingleton.isGE(this._completeName); }
 
     // TODO: Will ask sir about this. The sample input string has no 
     // "slots" related data.
@@ -86,6 +77,34 @@ export default class Section {
     hasSlots(): boolean {
         return true;
     }
+
+    // [ PROXY METHODS, GETTERS, and OTHERS. ]
+    // These are for testing purposes only.
+    // They are not meant to be used outside of this class.
+
+    /**
+     * Proxy getter for the _completeName property.
+     * 
+     * @description
+     * Get the complete name of this Section object.
+     * 
+     * For definitiveness sake, the complete name is the course name and section
+     * name combined (e.g., "CS 11 CLASS 1" - CS 11 is the course name
+     * and CLASS 1 is the section name).
+     * 
+     * @returns {string} The complete name of this Section object.
+     */
+    get _proxyCompleteName(): string { return this._completeName; }
+
+    get _proxyDayBasedSchedules(): DayBasedSchedule[] {
+        let schedsCopy: DayBasedSchedule[] = [];
+        for (let sched of this._dayBasedSchedules) {
+            schedsCopy.push(sched.copyWith());
+        }
+
+        return schedsCopy;
+    }
+
 }
 
 /**
@@ -136,7 +155,7 @@ export function parseInput(input: string): Section[] {
  * @returns {Section[]} The filtered array of Section objects.
  */
 export function getGEs(sections: Section[]): Section[] {
-    return [];
+    return sections.filter(section => !section.isGE());
 }
 
 /**
@@ -148,5 +167,17 @@ export function getGEs(sections: Section[]): Section[] {
  * @returns {Section[]} The filtered array of Section objects.
  */
 export function getAllWithConflict(sections: Section[]): Section[] {
-    return [];
+    let sectionsWithConflict: Section[] = [];
+
+    for (let i = 0; i < sections.length; i++) {
+        for (let j = i + 1; j < sections.length; j++) {
+            if (sections[i].hasConflict(sections[j])) {
+                sectionsWithConflict.push(sections[i]);
+                sectionsWithConflict.push(sections[j]);
+            }
+        }
+    }
+
+    // Remove duplicates.
+    return [...new Set(sectionsWithConflict)];
 }
