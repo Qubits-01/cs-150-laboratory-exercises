@@ -26,28 +26,6 @@ class DayBasedSchedule {
         // [ startTime. ]
         this._startTime = this._buildTimeObj(start, () => { var _a; return endAmOrPm === "AM" ? "AM" : (_a = this._extractAmOrPm(start)) !== null && _a !== void 0 ? _a : "PM"; });
     }
-    // [ GETTERS. ]
-    /**
-     * Get the days of the week of this DayBasedSchedule object.
-     * The returned array is a copy (not by reference).
-     *
-     * @returns {Day[]} An array of Day objects.
-     */
-    // get days(): Day[] { return [...this._days]; }
-    /**
-     * Get the start time of this DayBasedSchedule object.
-     * The returned Time object is a copy (not by reference-like).
-     *
-     * @returns {Time} The start Time object.
-     */
-    // get startTime(): Time { return { ...this._startTime }; }
-    /**
-     * Get the end time of this DayBasedSchedule object.
-     * The returned Time object is a copy (not by reference-like).
-     *
-     * @returns {Time} The end Time object.
-     */
-    // get endTime(): Time { return { ...this._endTime }; }
     // [ UTILITY METHODS. ]
     /**
      * Check if this DayBasedSchedule object has a conflict with the given
@@ -191,8 +169,26 @@ class DayBasedSchedule {
     // These methods are only for testing purposes.
     // They are used to test private methods.
     // They should not be used outside of testing.
+    /**
+     * Proxy getter for the _days property.
+     * The returned array is a copy (not by reference).
+     *
+     * @returns {Day[]} An array of Day objects.
+     */
     get _proxyDays() { return (0, deep_copy_1.default)(this._days); }
+    /**
+     * Proxy getter for the _startTime property.
+     * The returned Time object is a copy (not by reference-like).
+     *
+     * @returns {Time} The start Time object.
+     */
     get _proxyStartTime() { return (0, deep_copy_1.default)(this._startTime); }
+    /**
+     * Proxy getter for the _endTime property.
+     * The returned Time object is a copy (not by reference-like).
+     *
+     * @returns {Time} The end Time object.
+     */
     get _proxyEndTime() { return (0, deep_copy_1.default)(this._endTime); }
     /**
      * Proxy method for extractDays.

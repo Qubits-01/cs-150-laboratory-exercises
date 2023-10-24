@@ -37,31 +37,6 @@ export default class DayBasedSchedule {
         );
     }
 
-    // [ GETTERS. ]
-    /**
-     * Get the days of the week of this DayBasedSchedule object.
-     * The returned array is a copy (not by reference).
-     * 
-     * @returns {Day[]} An array of Day objects.
-     */
-    // get days(): Day[] { return [...this._days]; }
-
-    /**
-     * Get the start time of this DayBasedSchedule object.
-     * The returned Time object is a copy (not by reference-like).
-     * 
-     * @returns {Time} The start Time object.
-     */
-    // get startTime(): Time { return { ...this._startTime }; }
-
-    /**
-     * Get the end time of this DayBasedSchedule object.
-     * The returned Time object is a copy (not by reference-like).
-     * 
-     * @returns {Time} The end Time object.
-     */
-    // get endTime(): Time { return { ...this._endTime }; }
-
     // [ UTILITY METHODS. ]
     /**
      * Check if this DayBasedSchedule object has a conflict with the given
@@ -225,10 +200,28 @@ export default class DayBasedSchedule {
     // They are used to test private methods.
     // They should not be used outside of testing.
 
+    /**
+     * Proxy getter for the _days property.
+     * The returned array is a copy (not by reference).
+     * 
+     * @returns {Day[]} An array of Day objects.
+     */
     get _proxyDays(): Day[] { return deepCopy<Day[]>(this._days); }
 
+    /**
+     * Proxy getter for the _startTime property.
+     * The returned Time object is a copy (not by reference-like).
+     * 
+     * @returns {Time} The start Time object.
+     */
     get _proxyStartTime(): Time { return deepCopy<Time>(this._startTime); }
 
+    /**
+     * Proxy getter for the _endTime property.
+     * The returned Time object is a copy (not by reference-like).
+     * 
+     * @returns {Time} The end Time object.
+     */
     get _proxyEndTime(): Time { return deepCopy<Time>(this._endTime); }
 
     /**

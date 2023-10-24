@@ -19,23 +19,6 @@ export default class Section {
             GECoursesSingleton.getInstance()
     ) { }
 
-    // [ GETTERS. ]
-    /**
-     * Get the day based schedules of this Section object.
-     * The returned array is a copy (not by reference).
-     * 
-     * @returns {DayBasedSchedule[]} An array of DayBasedSchedule objects.
-     */
-    // get dayBasedSchedules(): DayBasedSchedule[] {
-    //     // Return a copy of the dayBasedSchedules array (not by reference).
-    //     let schedsCopy: DayBasedSchedule[] = [];
-    //     for (let sched of this._dayBasedSchedules) {
-    //         schedsCopy.push(sched.copyWith());
-    //     }
-
-    //     return schedsCopy;
-    // }
-
     // [ UTILITY METHODS. ]
     /**
      * Check if this Section object has a scheduling conflict with the other
@@ -78,6 +61,31 @@ export default class Section {
         return true;
     }
 
+    /**
+     * Get a copy of this Section object.
+     * 
+     * @param {string} completeName The complete name of the Section object.
+     * @param {DayBasedSchedule[]} dayBasedSchedules The day-based schedules
+     * of the Section object.
+     * @returns {Section} A copy of this Section object.
+     */
+    copyWith(
+        completeName?: string,
+        dayBasedSchedules?: DayBasedSchedule[],
+    ): Section {
+        let dayBasedSchedsCopy: DayBasedSchedule[] = [];
+        if (!dayBasedSchedules) {
+            for (let sched of this._dayBasedSchedules) {
+                dayBasedSchedsCopy.push(sched.copyWith());
+            }
+        }
+
+        return new Section(
+            completeName ?? this._completeName,
+            dayBasedSchedules ?? dayBasedSchedsCopy,
+        );
+    }
+
     // [ PROXY METHODS, GETTERS, and OTHERS. ]
     // These are for testing purposes only.
     // They are not meant to be used outside of this class.
@@ -85,7 +93,6 @@ export default class Section {
     /**
      * Proxy getter for the _completeName property.
      * 
-     * @description
      * Get the complete name of this Section object.
      * 
      * For definitiveness sake, the complete name is the course name and section
@@ -96,6 +103,14 @@ export default class Section {
      */
     get _proxyCompleteName(): string { return this._completeName; }
 
+    /**
+     * Proxy getter for the _dayBasedSchedules property.
+     * 
+     * Get the day based schedules of this Section object.
+     * The returned array is a copy (not by reference).
+     * 
+     * @returns {DayBasedSchedule[]} An array of DayBasedSchedule objects.
+     */
     get _proxyDayBasedSchedules(): DayBasedSchedule[] {
         let schedsCopy: DayBasedSchedule[] = [];
         for (let sched of this._dayBasedSchedules) {
@@ -155,7 +170,14 @@ export function parseInput(input: string): Section[] {
  * @returns {Section[]} The filtered array of Section objects.
  */
 export function getGEs(sections: Section[]): Section[] {
-    return sections.filter(section => !section.isGE());
+    let noGEs: Section[] = [];
+    sections.forEach(section => {
+        if (!section.isGE()) {
+            noGEs.push(section.copyWith());
+        }
+    });
+
+    return noGEs;
 }
 
 /**

@@ -9,118 +9,6 @@ describe('[ DayBasedSchedule ]', () => {
         mock = new DayBasedSchedule("MWF", "8:30AM-10:00AM");
     });
 
-    describe('[ days ]', () => {
-        let mock: DayBasedSchedule;
-        let days: string;
-
-        beforeAll(() => {
-            days = "MWThF";
-            // The time argument is not really needed here, just random input data.
-            mock = new DayBasedSchedule(days, "8:30AM-10:00AM");
-
-        });
-
-        test('Should return an array of correct Day objects.', () => {
-            // [ Arrange.]
-            const EXPECTED: Day[] = mock._proxyDays;
-
-            // [ Act. ]
-            const ACTUAL: Day[] = mock._proxyExtractDays(days);
-
-            // [ Assert. ]
-            expect(ACTUAL).toEqual(EXPECTED);
-        });
-
-        test('Returned array should not be modifiable outside of this class.', () => {
-            // [ Arrange. ]
-            const EXPECTED: Day[] = mock._proxyDays;
-
-            // [ Act. ]
-            const MODIFIED_DAYS: Day[] = mock._proxyDays;
-            MODIFIED_DAYS.push("M");
-
-            // [ Assert. ]
-            expect(MODIFIED_DAYS).not.toEqual(EXPECTED);
-        });
-    });
-
-    describe('[ startTime ]', () => {
-        let time: string;
-        let mock: DayBasedSchedule;
-
-        beforeAll(() => {
-            time = "8:30AM";
-            // The days argument is not really needed here, just random input data.
-            mock = new DayBasedSchedule("MWF", `${time}-10:00AM`);
-        });
-
-        test('Should return a correct Time object.', () => {
-            // [ Arrange. ]
-            const EXPECTED: Time = mock._proxyStartTime;
-
-            // [ Act. ]
-            const ACTUAL: Time = mock._proxyBuildTimeObj(time, () => "AM");
-            console.log(ACTUAL);
-
-            // [ Assert. ]
-            expect(ACTUAL).toEqual(EXPECTED);
-        });
-
-        test(
-            'Returned Time object should not be modifiable outside of this class.',
-            () => {
-                // [ Arrange. ]
-                const EXPECTED: Time = mock._proxyStartTime;
-
-                // [ Act. ]
-                const MODIFIED_TIME: Time = mock._proxyStartTime;
-                MODIFIED_TIME.hour = 69;
-                MODIFIED_TIME.minute = 42;
-
-                // [ Assert. ] 
-                expect(MODIFIED_TIME).not.toEqual(EXPECTED);
-            }
-        );
-    });
-
-    describe('[ endTime ]', () => {
-        let time: string;
-        let mock: DayBasedSchedule;
-
-        beforeAll(() => {
-            time = "10:00AM";
-            // The days argument is not really needed here, just random input data.
-            mock = new DayBasedSchedule("MWF", `8:30AM-${time}`);
-        });
-
-        test('Should return a correct Time object.', () => {
-            // [ Arrange. ]
-            const EXPECTED: Time = mock._proxyEndTime;
-
-            // [ Act. ]
-            const ACTUAL: Time = mock._proxyBuildTimeObj(time, () => "AM");
-
-            // [ Assert. ]
-            expect(ACTUAL).toEqual(EXPECTED);
-        });
-
-        test(
-            'Returned Time object should not be modifiable outside of this class.',
-            () => {
-                // [ Arrange. ]
-                const EXPECTED: Time = mock._proxyEndTime;
-
-                // [ Act. ]
-                const MODIFIED_TIME: Time = mock._proxyEndTime;
-                MODIFIED_TIME.hour = 69;
-                MODIFIED_TIME.minute = 42;
-
-                // [ Assert. ] 
-                expect(MODIFIED_TIME).not.toEqual(EXPECTED);
-            }
-        );
-    });
-
     describe('[ hasConflict ]', () => {
         describe('Same days.', () => {
             test('Should return true for 8:30-10AM and 9:00-10AM.', () => {
@@ -834,6 +722,118 @@ describe('[ DayBasedSchedule ]', () => {
             expect(start).toBe(495);
             expect(end).toBe(600);
         }
+        );
+    });
+
+    describe('[ _days ]', () => {
+        let mock: DayBasedSchedule;
+        let days: string;
+
+        beforeAll(() => {
+            days = "MWThF";
+            // The time argument is not really needed here, just random input data.
+            mock = new DayBasedSchedule(days, "8:30AM-10:00AM");
+
+        });
+
+        test('Should return an array of correct Day objects.', () => {
+            // [ Arrange.]
+            const EXPECTED: Day[] = mock._proxyDays;
+
+            // [ Act. ]
+            const ACTUAL: Day[] = mock._proxyExtractDays(days);
+
+            // [ Assert. ]
+            expect(ACTUAL).toEqual(EXPECTED);
+        });
+
+        test('Returned array should not be modifiable outside of this class.', () => {
+            // [ Arrange. ]
+            const EXPECTED: Day[] = mock._proxyDays;
+
+            // [ Act. ]
+            const MODIFIED_DAYS: Day[] = mock._proxyDays;
+            MODIFIED_DAYS.push("M");
+
+            // [ Assert. ]
+            expect(MODIFIED_DAYS).not.toEqual(EXPECTED);
+        });
+    });
+
+    describe('[ _startTime ]', () => {
+        let time: string;
+        let mock: DayBasedSchedule;
+
+        beforeAll(() => {
+            time = "8:30AM";
+            // The days argument is not really needed here, just random input data.
+            mock = new DayBasedSchedule("MWF", `${time}-10:00AM`);
+        });
+
+        test('Should return a correct Time object.', () => {
+            // [ Arrange. ]
+            const EXPECTED: Time = mock._proxyStartTime;
+
+            // [ Act. ]
+            const ACTUAL: Time = mock._proxyBuildTimeObj(time, () => "AM");
+            console.log(ACTUAL);
+
+            // [ Assert. ]
+            expect(ACTUAL).toEqual(EXPECTED);
+        });
+
+        test(
+            'Returned Time object should not be modifiable outside of this class.',
+            () => {
+                // [ Arrange. ]
+                const EXPECTED: Time = mock._proxyStartTime;
+
+                // [ Act. ]
+                const MODIFIED_TIME: Time = mock._proxyStartTime;
+                MODIFIED_TIME.hour = 69;
+                MODIFIED_TIME.minute = 42;
+
+                // [ Assert. ] 
+                expect(MODIFIED_TIME).not.toEqual(EXPECTED);
+            }
+        );
+    });
+
+    describe('[ _endTime ]', () => {
+        let time: string;
+        let mock: DayBasedSchedule;
+
+        beforeAll(() => {
+            time = "10:00AM";
+            // The days argument is not really needed here, just random input data.
+            mock = new DayBasedSchedule("MWF", `8:30AM-${time}`);
+        });
+
+        test('Should return a correct Time object.', () => {
+            // [ Arrange. ]
+            const EXPECTED: Time = mock._proxyEndTime;
+
+            // [ Act. ]
+            const ACTUAL: Time = mock._proxyBuildTimeObj(time, () => "AM");
+
+            // [ Assert. ]
+            expect(ACTUAL).toEqual(EXPECTED);
+        });
+
+        test(
+            'Returned Time object should not be modifiable outside of this class.',
+            () => {
+                // [ Arrange. ]
+                const EXPECTED: Time = mock._proxyEndTime;
+
+                // [ Act. ]
+                const MODIFIED_TIME: Time = mock._proxyEndTime;
+                MODIFIED_TIME.hour = 69;
+                MODIFIED_TIME.minute = 42;
+
+                // [ Assert. ] 
+                expect(MODIFIED_TIME).not.toEqual(EXPECTED);
+            }
         );
     });
 });
