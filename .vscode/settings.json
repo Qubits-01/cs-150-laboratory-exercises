@@ -17,12 +17,15 @@
     "Lingg",
     "nums",
     "Orpm",
+    "Peejay",
     "PHILARTS",
     "Sched",
     "Scheds",
     "SOSC",
     "strs",
-    "tsbuildinfo"
+    "tsbuildinfo",
+    "Viernes",
+    "whos"
   ],
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"

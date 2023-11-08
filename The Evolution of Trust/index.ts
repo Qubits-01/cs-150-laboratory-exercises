@@ -1,3 +1,5 @@
+// Marc Peejay V. Viernes
+
 import { argv } from 'process';
 
 type Strategy = 'copycat' | 'grudger' | 'detective';
@@ -153,3 +155,25 @@ function getStrategyObj(strategy: Strategy): Copycat | Grudger | Detective {
 }
 
 main();
+
+/**
+ * Answers:
+ * 1) 
+ * Nothing much. I would just need to add getters/accessors for the
+ * front-end (HTML) to use in order for it to display the results and 
+ * other relevant state data. Also, I would need to add an async code
+ * for the button that the player will click.
+ * 
+ * 2)
+ * After getting the move for each strategy, I will then apply the "X%
+ * chance for mistakes" rule on the said moves. Using a random number
+ * generator that incorporates the "X% chance for mistakes" rule, I will
+ * then determine the actual moves for each strategy (if it will be 
+ * a mistake or not).
+ * 
+ * 3)
+ * Relatively speaking, I think it would be easy since I heavily used
+ * classes in my implementation. That is, I can just spawn up new
+ * instances of the classes and use them as needed.
+ * 
+ *  */
